@@ -1,9 +1,10 @@
+import MainLayout from "./components/layout/MainLayouts"
 
 function App() {
   
   return (
     <>
-      <h1>Chapters & Co.</h1>
+      <MainLayout></MainLayout>
     </>
   )
 }
