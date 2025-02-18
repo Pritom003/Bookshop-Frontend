@@ -8,9 +8,9 @@ const { Header } = Layout;
 
 const navLinks = [
   { key: 'home', label: 'Home', path: '/' },
-  { key: 'about', label: 'About', path: '/' },
-  { key: 'books', label: 'All Books', path: '/' },
-  { key: 'profile', label: 'Profile', path: '/' },
+  { key: 'about', label: 'About', path: '/about' },
+  { key: 'books', label: 'All Books', path: '/all-books' },
+  { key: 'contacts', label: 'Contact Us', path: '/contact' },
 ];
 
 const Navbar = () => {
