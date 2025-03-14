@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { Layout, Menu, Drawer, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/C&C.svg'; // Update with your actual logo
+import logo from '../../assets/C&C.svg'; 
+import { useAppSelector } from '../../redux/hooks';
+import { useCurrentUser } from '../../redux/features/auth/authSlice';
 
 const { Header } = Layout;
 
@@ -11,9 +13,12 @@ const navLinks = [
   { key: 'about', label: 'About', path: '/about' },
   { key: 'books', label: 'All Books', path: '/all-books' },
   { key: 'contacts', label: 'Contact Us', path: '/contact' },
+  { key: 'register', label: 'register', path: '/regi' },
 ];
 
 const Navbar = () => {
+  const user = useAppSelector(useCurrentUser)
+  console.log(user);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -24,7 +29,7 @@ const Navbar = () => {
       if (!heroSection) return;
 
       const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-      setScrolled(window.scrollY >= heroBottom - 70); // Adjusted for smooth transition
+      setScrolled(window.scrollY >= heroBottom - 70); 
     };
 
     const handleResize = () => {
@@ -44,14 +49,16 @@ const Navbar = () => {
     <Header
       style={{
         position: 'fixed',
+        marginBottom:'40px',
         top: 0,
         width: '100%',
         zIndex: 1000,
-        backgroundColor: scrolled ? 'black' : 'transparent', // Change background based on scroll
+        backgroundColor: 'black' , 
         transition: 'background 0.3s ease-in-out',
         display: 'flex',
         alignItems: 'center',
         padding: '0 20px',
+     
       }}
     >
       {/* Logo */}
@@ -80,10 +87,14 @@ const Navbar = () => {
             minWidth: '300px',
             justifyContent: 'space-around',
             background: 'transparent',
+             
           }}
         >
           {navLinks.map((link) => (
-            <Menu.Item key={link.key}>
+            <Menu.Item key={link.key}   style={{
+           
+              color:  scrolled ? 'black' : 'white'
+            }}>
               <Link to={link.path}>{link.label}</Link>
             </Menu.Item>
           ))}
@@ -99,7 +110,7 @@ const Navbar = () => {
           style={{
             marginLeft: 'auto',
             fontSize: '20px',
-            color: 'white',
+            color: 'black',
           }}
         />
       )}

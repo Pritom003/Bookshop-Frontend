@@ -15,13 +15,10 @@ const productApi = baseApi.injectEndpoints({
       //   providesTags: [tagTypes.product],
     }),
     getSingleProduct: builder.query({
-      query: (query?: Record<string, any>) => ({
-        url: "/products",
+      query: (id: string) => ({
+        url: `/products/${id}`, // Fetch product by ID
         method: "GET",
-        params: query || {}, // Ensure it doesn't break if `query` is undefined
       }),
-      
-      //   providesTags: [tagTypes.product],
     }),
     createProduct: builder.mutation({
       query: (body) => ({
