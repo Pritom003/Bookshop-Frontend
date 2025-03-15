@@ -1,28 +1,29 @@
-import { useState } from "react";
-import { Input, Select, Slider, Card, Row, Col, Pagination, Spin, Alert, Tag, Button } from "antd";
-import { useGetProductsQuery } from "../redux/features/Books/Books.api";
-import { Book } from "../types/types.books";
-const { Option } = Select;
+import { useForm } from 'react-hook-form'; // Import useForm
+import Selectfield from "../components/Form/Selectfield"; // Import Selectfield
+import categoryOptions from "../components/constatnt/categoryconts";
+import { Alert, Button, Card, Col, Input, Pagination, Row, Spin, Tag } from 'antd';
+import { Book } from '../types/types.books';
+import { Link, useNavigate } from 'react-router-dom';
+import { useGetProductsQuery } from '../redux/features/Books/Books.api';
+import { useState } from 'react';
 import images from '../assets/images/Banner3.jpg';
-import { Link } from "react-router-dom";
 const AllBooks = () => {
+  const { control, handleSubmit } = useForm(); // Initialize form control here
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 100]);
-  const [availability, setAvailability] = useState("");
-  const [sortBy, setSortBy] = useState("title");
+  // const [priceRange, setPriceRange] = useState([0, 100]);
+  // const [sortBy, setSortBy] = useState("title");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(6); // Fixed page size to 6 books per page
+  const navigate = useNavigate();
 
   const { data: productsData, isLoading, isError, error } = useGetProductsQuery({
     searchTerm,
     page: currentPage,
     limit: pageSize,
     category,
-    sortBy,
-    priceRange
   });
-console.log(productsData);
+
   if (isLoading) {
     return (
       <div style={{ padding: "20px", marginTop: "20px", textAlign: "center" }}>
@@ -30,7 +31,7 @@ console.log(productsData);
       </div>
     );
   }
-
+  
   if (isError) {
     return (
       <div style={{ padding: "20px", marginTop: "20px" }}>
@@ -38,25 +39,23 @@ console.log(productsData);
       </div>
     );
   }
-
+  
   const products = Array.isArray(productsData?.data?.products) ? productsData.data.products : [];
-
-  if (!products.length) {
+  
+  if (products.length === 0) {
     return (
       <div style={{ padding: "20px", marginTop: "20px", textAlign: "center" }}>
         <Alert message="No books found" description="Try adjusting your search or filters." type="warning" showIcon />
+        <Button
+          style={{ marginTop: "20px" }} 
+          onClick={() => navigate(-1)} // navigate back to previous page
+          type="default"
+        >
+          Go Back
+        </Button>
       </div>
     );
   }
-
-  // Group books by category
-  const groupedBooks = products.reduce((acc, book) => {
-    if (!acc[book.category]) {
-      acc[book.category] = [];
-    }
-    acc[book.category].push(book);
-    return acc;
-  }, {});
 
   return (
     <div style={{ padding: "20px", marginTop: "20px" }}>
@@ -71,66 +70,24 @@ console.log(productsData);
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Select
-            placeholder="Category"
-            value={category}
-            onChange={(value) => setCategory(value)}
-            style={{ width: "100%" }}
-          >
-            <Option value="">All Categories</Option>
-            <Option value="Fiction">Fiction</Option>
-            <Option value="Non-Fiction">Non-Fiction</Option>
-            <Option value="Fantasy">Fantasy</Option>
-          </Select>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Select
-            placeholder="Availability"
-            value={availability}
-            onChange={(value) => setAvailability(value)}
-            style={{ width: "100%" }}
-          >
-            <Option value="">All</Option>
-            <Option value="InStock">In Stock</Option>
-            <Option value="OutStock">Out of Stock</Option>
-          </Select>
-        </Col>
-        <Col xs={24} sm={12} md={4}>
-          <Select
-            placeholder="Sort by"
-            value={sortBy}
-            onChange={(value) => setSortBy(value)}
-            style={{ width: "100%" }}
-          >
-            <Option value="title">Title</Option>
-            <Option value="author">Author</Option>
-            <Option value="price">Price</Option>
-          </Select>
-        </Col>
-      </Row>
-
-      {/* Price Range */}
-      <Row gutter={[16, 16]} style={{ marginTop: "10px" }}>
-        <Col span={24}>
-          <Slider
-            range
-            min={0}
-            max={100}
-            defaultValue={priceRange}
-            onChange={setPriceRange}
+        <Col xs={24} sm={12} md={12}>
+          <Selectfield
+            label="Category"
+            name="category"
+            control={control} 
+            options={categoryOptions} 
+            disabled={false} 
+            value={category} 
+            width={'200px'}
+            onChange={(value) => setCategory(value)} // Update the selected category
           />
         </Col>
       </Row>
 
-      {/* Display Books by Category */}
-      {Object.keys(groupedBooks).map((category) => (
-      <div key={category} style={{ marginTop: "80px" }}>
-      <h2 style={{ fontSize: "60px", fontWeight: "bold",
-         marginBottom: "50px" }}>{category}</h2>
-      <Row gutter={[50, 80]}>
-        {groupedBooks[category].map((book: Book) => (
-          <Col xs={24} sm={24} md={24} lg={12} xl={8} key={book.id}>
+      {/* Display All Books */}
+      <Row gutter={[50, 80]} style={{ margin: "80px 20px" }}>
+        {products.map((book: Book) => (
+          <Col xs={24} sm={24} md={24} lg={8} xl={8} key={book.id}>
             <Card
               bordered
               style={{
@@ -157,29 +114,29 @@ console.log(productsData);
               >
                 <img
                   alt={book.title}
-                  src={book.coverImage || images}
+                  src={book.bookCover || images}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                
-              </div> {book.inStock ? <Tag color="green"   
-               style={{ top:'120px'}}>In Stock</Tag> : <Tag color="red">Out of Stock</Tag>}
+              </div>
+              {book.inStock ? (
+                <Tag color="green" style={{ top: '120px' }}>In Stock</Tag>
+              ) : (
+                <Tag color="red">Out of Stock</Tag>
+              )}
               <div style={{ marginLeft: "150px", flex: 1 }}>
                 <h3 style={{ fontSize: "18px", fontWeight: "bold" }}>{book.title}</h3>
-                <p style={{ fontSize: "16px", color: "#555" }}><strong>By {book.author}</strong> </p>
+                <p style={{ fontSize: "16px", color: "#555" }}><strong>By {book.author}</strong></p>
                 <p style={{ fontSize: "16px", color: "#555" }}><strong>Price:</strong> ${book.price}</p>
                 <Link to={`/book/${book._id}`}>
-    <Button type="default" style={{ alignSelf: "flex-end", justifySelf: "end" }}>View Details</Button>
-  </Link>
-
-                
-                {/* <Button type="link" style={{textAlign:"end"}}>View Details</Button> */}
+                  <Button type="default" style={{ alignSelf: "flex-end", justifySelf: "end" }}>
+                    View Details
+                  </Button>
+                </Link>
               </div>
             </Card>
           </Col>
         ))}
       </Row>
-    </div>
-      ))}
 
       {/* Pagination */}
       <Pagination

@@ -1,4 +1,5 @@
 export interface Book {
+    bookCover: string | undefined;
     _id: string;
     title: string;
     author: string;

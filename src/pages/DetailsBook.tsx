@@ -9,21 +9,22 @@ const { TextArea } = Input;
 
 const DetailsBook = () => {
     const { id } = useParams();
-    const { data: book, isLoading } =useGetSingleProductQuery(id);
+    const { data: book, isLoading } = useGetSingleProductQuery(id || '');
     // const { data: recommendedBooks } = useGetRecommendedBooksQuery(book?.author);
-
+console.log(id);
     if (isLoading) return <p>Loading...</p>;
 console.log(book);
     return (
         <div style={{ padding: '20px' }}>
             <Row gutter={[16, 16]}>
                 <Col xs={24} md={12}>
-                    <Card cover={<img alt={book?.title} src={book?.coverImage || images} style={{ width: '100%', objectFit: 'cover' }} />} />
+                
+                    <Card cover={<img alt={book?.title} src={book?.data.bookCover || images} style={{ width: '100%', objectFit: 'cover' }} />} />
                 </Col>
                 <Col xs={24} md={12}>
                     <h1>{book?.data.title}</h1>
                     <h3>By {book?.data.author}</h3>
-                    <img src={book?.authorImage || images} alt={book?.data.author} style={{ width: '100px', borderRadius: '50%' }} />
+                    <img src={book?.data.authorImage || images} alt={book?.data.author} style={{ width: '100px', borderRadius: '50%' }} />
                     <p><strong>Price:</strong> ${book?.data.price}</p>                 
                     <p><strong>category:</strong> ${book?.data.category}</p>                 
                     <p><strong>Description:</strong> {book?.data.description}</p>
