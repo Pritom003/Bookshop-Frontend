@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card, Rate, Input, Button, Row, Col } from 'antd';
+import { Rate, Input, Button, Row, Col } from 'antd';
 import { useParams } from 'react-router-dom';
-// import { useGetBookDetailsQuery, useGetRecommendedBooksQuery } from '../redux/features/Books/Books.api';
 import images from '../assets/images/Banner3.jpg';
 import { useGetSingleProductQuery } from '../redux/features/Books/Books.api';
 
@@ -10,45 +9,51 @@ const { TextArea } = Input;
 const DetailsBook = () => {
     const { id } = useParams();
     const { data: book, isLoading } = useGetSingleProductQuery(id || '');
-    // const { data: recommendedBooks } = useGetRecommendedBooksQuery(book?.author);
-console.log(id);
-    if (isLoading) return <p>Loading...</p>;
-console.log(book);
-    return (
-        <div style={{ padding: '20px' }}>
-            <Row gutter={[16, 16]}>
-                <Col xs={24} md={12}>
-                
-                    <Card cover={<img alt={book?.title} src={book?.data.bookCover || images} style={{ width: '100%', objectFit: 'cover' }} />} />
-                </Col>
-                <Col xs={24} md={12}>
-                    <h1>{book?.data.title}</h1>
-                    <h3>By {book?.data.author}</h3>
-                    <img src={book?.data.authorImage || images} alt={book?.data.author} style={{ width: '100px', borderRadius: '50%' }} />
-                    <p><strong>Price:</strong> ${book?.data.price}</p>                 
-                    <p><strong>category:</strong> ${book?.data.category}</p>                 
-                    <p><strong>Description:</strong> {book?.data.description}</p>
-                    <p><strong>last Update:</strong> {book?.data.updatedAt}</p>
-                    <Rate allowHalf defaultValue={book?.data.rating} />
-                    <TextArea rows={4} placeholder="Write a review..." style={{ marginTop: '10px' }} />
-                    <Button type="primary" style={{ marginTop: '10px' }}>Submit Review</Button>
-                </Col>
-            </Row>
 
-            {/* <div style={{ marginTop: '40px' }}>
-                <h2>Recommended Books by {book?.author}</h2>
-                <Row gutter={[16, 16]}>
-                    {recommendedBooks?.map((recBook) => (
-                        <Col key={recBook.id} xs={24} sm={12} md={8} lg={6}>
-                            <Card cover={<img alt={recBook.title} src={recBook.coverImage || images} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />}>
-                                <h3>{recBook.title}</h3>
-                                <p>Price: ${recBook.price}</p>
-                                <Button type="link">View Details</Button>
-                            </Card>
-                        </Col>
-                    ))}
+    if (isLoading) return <p>Loading...</p>;
+
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '20px' }}>
+            <div style={{ width: '100%', maxWidth: '800px' }}> {/* Restrict width for better layout */}
+                <Row gutter={[8, 16]}>
+                    <Col xs={24} style={{ display: 'flex', flexDirection: 'column' }}>
+                        {/* Top Section: Image & Basic Info */}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            {/* Book Cover Image */}
+                            <div style={{ flexShrink: 0, width: '150px' }}>
+                                <img 
+                                    alt={book?.data.title}
+                                    src={book?.data.bookCover || images} 
+                                    style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: '8px' }} 
+                                />
+                            </div>
+                            {/* Book Details */}
+                            <div style={{ flex: 1, paddingLeft: '30px', marginTop: '20px' }}>
+                                <h1>{book?.data.title}</h1>
+                                <div style={{ display: 'flex', margin: '10px 0', alignItems: 'center', gap: '10px' }}>
+                                    <img 
+                                        src={book?.data.authorImage || images} 
+                                        alt={book?.data.author} 
+                                        style={{ width: '60px', borderRadius: '50%' }} 
+                                    />
+                                    <h5>By {book?.data.author}</h5>
+                                </div>
+                                <p><strong>Category:</strong> {book?.data.category}</p>
+                                <p><strong>Price:</strong> ${book?.data.price}</p>
+                            </div>
+                        </div>
+
+                        {/* Bottom Section: Description & Additional Info */}
+                        <div style={{ marginTop: '20px' }}>
+                            <p><strong>Description:</strong> {book?.data.description}</p>
+                            <p><strong>Last Update:</strong> {book?.data.updatedAt}</p>
+                            <Rate allowHalf defaultValue={book?.data.rating} />
+                            <TextArea rows={4} placeholder="Write a review..." style={{ marginTop: '10px' }} />
+                            <Button type="primary" style={{ marginTop: '10px' }}>Submit Review</Button>
+                        </div>
+                    </Col>
                 </Row>
-            </div> */}
+            </div>
         </div>
     );
 };

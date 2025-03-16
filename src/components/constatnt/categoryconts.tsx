@@ -1,10 +1,11 @@
+import { BookOpen, FlaskConical, BrainCircuit, Feather, Book } from "lucide-react";
+
 const categoryOptions = [
-    { value: 'Fiction', label: 'Fiction' },
-    { value: 'Science', label: 'Science' },
-    { value: 'SelfDevelopment', label: 'Self Development' },
-    { value: 'Poetry', label: 'Poetry' },
-    { value: 'Religious', label: 'Religious' },
-  ];
-  
-  export default categoryOptions;
-  
+  { value: "Fiction", label: "Fiction", icon: <BookOpen size={24} /> },
+  { value: "Science", label: "Science", icon: <FlaskConical size={24} /> },
+  { value: "SelfDevelopment", label: "Self Dev", icon: <BrainCircuit size={24} /> },
+  { value: "Poetry", label: "Poetry", icon: <Feather size={24} /> },
+  { value: "Religious", label: "Religious", icon: <Book size={24} /> },
+];
+
+export default categoryOptions;

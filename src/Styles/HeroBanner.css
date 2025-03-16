@@ -1,63 +1,28 @@
-/* Reset any unwanted margin/padding */
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; 
+@keyframes fade {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
-/* Hero Section */
-/* Ensure Hero section starts from the top */
-.hero-container {
-  width: 100%;
-  height: 80vh; /* Full viewport height */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 0; 
-  padding: 0;
+.animate-fade {
+  animation: fade 2s infinite ease-in-out;
 }
 
-/* Black Overlay */
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+@keyframes dash {
+  0% { stroke-dashoffset: 200; }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 200; }
 }
 
-
-/* Content */
-.hero-content {
-  position: relative;
-  z-index: 2;
-  color: white;
-  max-width: 600px;
-  padding: 20px;
+.animate-dash {
+  animation: dash 2s infinite ease-in-out;
 }
 
-.hero-title {
-  font-size: 48px !important;
-  color: white !important;
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
-.hero-subtitle {
-  font-size: 18px;
-  color: white;
-}
-
-.hero-button {
-  background: #1D7B84 !important;
-  border-radius: 20px !important;
-  border: none !important;
-  padding:5px;
-  width: 150px;
-  height: 40px;
-  font-weight: bold;
+.animate-float {
+  animation: float 3s infinite ease-in-out;
 }
