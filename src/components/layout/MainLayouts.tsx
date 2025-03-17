@@ -9,7 +9,7 @@ const MainLayout = () => {
     <Layout style={{ minHeight: '100vh' }}>
       {/* Header */}
  
-<div >
+<div className='mb-16' >
 <Navbar/>
 </div>
 
