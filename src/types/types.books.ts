@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Book {
+    stock: (arg0: number, stock: any) => number;
     bookCover: string | undefined;
     _id: string;
     title: string;

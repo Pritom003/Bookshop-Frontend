@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { TUser } from "../auth/authSlice";
 
 export interface ICartItem {
   stock(arg0: number, stock: any): number;
+  // user: TUser;
   product: string; 
   name: string;
   price: number;

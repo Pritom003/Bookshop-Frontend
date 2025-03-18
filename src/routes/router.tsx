@@ -14,6 +14,7 @@ import Orderdetails from "../pages/Order/Orderdetails";
 // import VerifyOrder from "../pages/Order/VerifyOrder";
 import Cart from "../pages/Payment/Cart";
 import Checkout from "../pages/Payment/CheckoutPage";
+import VerifyOrder from "../pages/Order/VerifyOrder";
 // import VerifyOrder from "../pages/Payment/VerifyOrder";
 // import VerifyOrder from "../pages/Payment/VerifyOrder";
 
@@ -37,10 +38,10 @@ const router = createBrowserRouter([
         path: "/order",
         element: <Orderdetails />,
       },
-      // {
-      //   path: "/order/verify",
-      //   element: <VerifyOrder />,
-      // },
+      {
+        path: "/order/verify",
+        element: <VerifyOrder />,
+      },
       {
         path: "/admin",
         element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,

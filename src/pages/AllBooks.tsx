@@ -11,8 +11,7 @@ import { ShoppingCart } from "lucide-react";
 import Container from "../utils/container";
 import CommontHero from "../utils/CommontHero";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useCurrentToken } from "../redux/features/auth/authSlice";
-import { verifyToken } from "../utils/VerifyToken";
+
 import { addToCart } from "../redux/features/cart/cartSlice";
 
 const AllBooks = () => {
@@ -22,9 +21,9 @@ const AllBooks = () => {
   const [pageSize] = useState(6);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const token = useAppSelector(useCurrentToken);
 
-
+// console.log();
+// console.log(user);
 
   const { data: productsData, isLoading, isError } = useGetProductsQuery({
     searchTerm,

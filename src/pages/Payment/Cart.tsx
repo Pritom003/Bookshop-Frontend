@@ -6,34 +6,56 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { useCreateOrderMutation } from "../../redux/features/Order/orderApi";
 import { toast } from "sonner";
 import { Button } from "antd";
+import { TUser } from "../../redux/features/auth/authSlice";
 
 const Cart = () => {
     const dispatch = useAppDispatch();
-
+    // const token = useAppSelector(useCurrentToken);
+    const user = useAppSelector((state) => state.auth.user) as TUser; 
     const cartData = useAppSelector((state) => state.cart);
-  
+  console.log(cartData);
     const [createOrder, { isLoading, isSuccess, data, isError, error }] =
       useCreateOrderMutation();
-  
-    const handlePlaceOrder = async () => {
-      await createOrder({ products: cartData?.items });
-    };
-  
+  console.log(data?.data,'sdfd');
+      const handlePlaceOrder = async () => {
+        const orderPayload = {
+          user: user.id,
+          products: cartData.items.map(({ product, quantity }) => ({
+            product, // ✅ Only sending required fields
+            quantity,
+          })),
+        };
+      
+        console.log("Sending order payload:", orderPayload); // ✅ Debugging step
+      
+        await createOrder(orderPayload);
+      };
+      
     const toastId = "cart";
     useEffect(() => {
       if (isLoading) toast.loading("Processing ...", { id: toastId });
-  
+   
       if (isSuccess) {
         toast.success(data?.message, { id: toastId });
         if (data?.data) {
-          setTimeout(() => {
-            window.location.href = data.data;
+          console.log("Redirecting to:", data.data); // Log the value to inspect
+          const timeoutId = setTimeout(() => {
+            // Check if it's a valid URL before redirecting
+            if (typeof data.data === 'string') {
+              window.location.href = data.data;
+            } else {
+              console.error("Invalid URL in data.data:", data.data);
+            }
           }, 1000);
+          return () => clearTimeout(timeoutId); // Cleanup on component unmount
         }
       }
-  
+   
       if (isError) toast.error(JSON.stringify(error), { id: toastId });
+      console.log(error);
     }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
+   
+    
 
   return (
     <div className="container mx-auto p-5">
