@@ -10,6 +10,12 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import Register from "../pages/Registe";
 import ProtectedRoute from "../components/layout/ProtectedRout";
 import AddBooks from "../pages/Admin/AddBooks";
+import Orderdetails from "../pages/Order/Orderdetails";
+// import VerifyOrder from "../pages/Order/VerifyOrder";
+import Cart from "../pages/Payment/Cart";
+import Checkout from "../pages/Payment/CheckoutPage";
+// import VerifyOrder from "../pages/Payment/VerifyOrder";
+// import VerifyOrder from "../pages/Payment/VerifyOrder";
 
 
 const router = createBrowserRouter([
@@ -24,6 +30,17 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/regi", element: <Register/> },
       { path: "/book/:id", element: <DetailsBook /> },
+      { path: "/cart", element: <Cart/> },
+      { path: "/checkout", element: <Checkout /> },
+      // { path: "/checkout", element: <DetailsB /> },
+      {
+        path: "/order",
+        element: <Orderdetails />,
+      },
+      // {
+      //   path: "/order/verify",
+      //   element: <VerifyOrder />,
+      // },
       {
         path: "/admin",
         element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,

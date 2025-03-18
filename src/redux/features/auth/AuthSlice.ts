@@ -9,17 +9,13 @@ export type TUser = {
 };
 
 type TAuthState = {
-  user: TUser | null;
-  token: string | null;
+  user: null | object;
+  token: null | string;
 };
 
-// Load initial state from localStorage
-const storedUser = localStorage.getItem("user");
-const storedToken = localStorage.getItem("token");
-
 const initialState: TAuthState = {
-  user: storedUser ? JSON.parse(storedUser) : null,
-  token: storedToken || null,
+  user: null,
+  token: null,
 };
 
 const authSlice = createSlice({
@@ -30,25 +26,18 @@ const authSlice = createSlice({
       const { user, token } = action.payload;
       state.user = user;
       state.token = token;
-
-      // Store in localStorage
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", token);
     },
+
     logOut: (state) => {
       state.user = null;
       state.token = null;
-
-      // Clear localStorage
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
     },
   },
 });
 
-
 export const { setUser, logOut } = authSlice.actions;
+
 export default authSlice.reducer;
 
 export const useCurrentToken = (state: RootState) => state.auth.token;
-export const useCurrentUser = (state: RootState) => state.auth.user;
+export const selectCurrentUser = (state: RootState) => state.auth.user;

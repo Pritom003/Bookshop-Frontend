@@ -24,6 +24,7 @@
     "react-router-dom": "^7.1.5",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "shurjopay": "^0.12.1",
     "sonner": "^1.7.4"
   },
   "devDependencies": {

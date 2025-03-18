@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Pagination } from "antd";
@@ -8,6 +10,10 @@ import { Book } from "../types/types.books";
 import { ShoppingCart } from "lucide-react";
 import Container from "../utils/container";
 import CommontHero from "../utils/CommontHero";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useCurrentToken } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/VerifyToken";
+import { addToCart } from "../redux/features/cart/cartSlice";
 
 const AllBooks = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,6 +21,10 @@ const AllBooks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector(useCurrentToken);
+
+
 
   const { data: productsData, isLoading, isError } = useGetProductsQuery({
     searchTerm,
@@ -36,7 +46,21 @@ const AllBooks = () => {
   }
 
   const products = Array.isArray(productsData?.data?.products) ? productsData.data.products : [];
-
+  const handleAddToCart = (book: Book) => {
+    console.log("Clicked Add to Cart:", book._id); // ✅ Use individual book
+    dispatch(
+      addToCart({
+        product: book._id,
+        name: book.title,
+        price: Number(book.price), 
+        quantity: 1,
+        inStock: book.inStock,
+        image: book?.bookCover|| "",
+        stock: book.stock,
+      })
+    );
+  };
+  
   return (
     <Container>
       <div className="min-h-screen bg-gray-50">
@@ -101,7 +125,7 @@ const AllBooks = () => {
                   <div className="text-center space-y-1">
                     <h3 className="text-base font-semibold leading-tight">{book.title}</h3>
                     <p className="text-gray-500 text-sm font-medium">Price: ${book.price}</p>
-                    <button className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
+                    <button onClick={() => handleAddToCart(book)} className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
                       hover:text-blue-600 transition hover:border-blue-600 text-sm">
                       <ShoppingCart size={16} /> Add to Cart
                     </button>
