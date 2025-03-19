@@ -5,10 +5,6 @@
 
 import { useGetOrdersQuery } from "../../redux/features/Order/orderApi";
 
-// import { Badge } from "antd";
-// import { useGetOrdersQuery } from "../redux/features/Order/orderApi";
-
-// import Skeleton from "../../component/ui/Skeleton";
 export interface Transaction {
   id: string;
   transactionStatus: string | null;
