@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import HeroBg from '../../assets/images/rm222batch3-mind-12.jpg';
 import floatimg from '../../assets/images/image for banner.png';
 import '../../Styles/HeroBanner.css';
+import Buttons from '../ui/Button/Button';
+// import Button from '../ui/Button/Button';
 
 const Hero = () => {
   return (
@@ -15,7 +17,7 @@ const Hero = () => {
       bg-opacity-10"></div>
 
 
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-10/12 mx-auto">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-10/12 mx-auto">
         {/* Left Side Text Content */}
         <div className="text-black max-w-lg font-sans">
           <h1 className="lg:text-4xl text-2xl  font-bold leading-tight">
@@ -52,7 +54,7 @@ const Hero = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua tenim.
           </p>
 
-          <Link to="/all-books" className="group inline-block mt-6 relative
+          {/* <Link to="/all-books" className="group inline-block mt-6 relative
            text-[#4ebcff] text-lg font-semibold hover:text-blue-400">
   Browse Books
   <span className="block w-full h-0.5 bg-black relative mt-1 ">
@@ -60,7 +62,10 @@ const Hero = () => {
      border-black transform -rotate-45
     transition-all duration-300 group-hover:translate-x-2"></span>
   </span>
-</Link>
+</Link> */}
+<Buttons  label="Get Started" 
+                to='/all-books'
+                className="rounded-full py-8  p-4 text-xs font-extralight "  />
 
 
         </div>

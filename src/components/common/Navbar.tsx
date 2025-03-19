@@ -3,23 +3,27 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, ShoppingCart } from "lucide-react";
 import Lottie from "lottie-react";
 import logoAnimation from "../../assets/animation/logo.json";
-import { useAppSelector } from "../../redux/hooks";
-import { useCreateOrderMutation } from "../../redux/features/Order/orderApi";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logOut, selectCurrentUser} from "../../redux/features/auth/authSlice";
+import { Button } from "antd";
 
 const navLinks = [
   { key: "home", label: "Home", path: "/" },
   { key: "about", label: "About", path: "/about" },
   { key: "books", label: "All Books", path: "/all-books" },
   { key: "contacts", label: "Contact Us", path: "/contact" },
-  { key: "register", label: "Register", path: "/regi" },
+  { key: "dash", label: "Dashboard", path: "/dashboard" },
 ];
 
 const Navbar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
+  const user = useAppSelector(selectCurrentUser);
   const cartData = useAppSelector((state) => state.cart);
-  const cartQuantity = cartData?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const cartQuantity =
+    cartData?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   return (
     <nav className="w-full bg-white py-4 px-20 lg:px-2 top-0 z-50 fixed">
@@ -47,6 +51,22 @@ const Navbar = () => {
               {index < navLinks.length - 1 && <span className="mx-2 text-black">|</span>}
             </li>
           ))}
+|
+          {/* Conditional Authentication Buttons */}
+          {user ? (
+            <Link
+            
+              className="text-black font-sans hover:text-[#2972b6] transition-all"
+              onClick={() => dispatch(logOut())} to={""}            >
+              Logout
+            </Link>
+          ) : (
+            <Link to="/regi" className="text-black font-sans hover:text-[#2972b6] transition-all">
+           
+                Register 
+       
+            </Link>
+          )}
         </ul>
 
         {/* Cart Icon */}
@@ -87,6 +107,23 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+            {/* Conditional Authentication for Mobile */}
+            {user ? (
+              <Button
+              
+                
+                onClick={() => dispatch(logOut())}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Link to="/regi" className="text-black hover:text-[#2972b6] transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+       
+                  Register 
+         
+              </Link>
+            )}
           </ul>
         </div>
       )}

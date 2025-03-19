@@ -3,6 +3,7 @@ import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
 import { baseApi } from "./api/baseApi";
 import storage from "redux-persist/lib/storage";
+import usersReducer from "./features/user/userSlice"; 
 import {
   FLUSH,
   PAUSE,
@@ -27,6 +28,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer, // Persisted auth reducer
     cart: cartReducer, // Regular cart reducer
+    users:usersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

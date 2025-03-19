@@ -10,6 +10,8 @@ import MainForm from "../components/Form/MainForm";
 import FormInput from "../components/Form/FormInput";
 import { useAppDispatch } from "../redux/hooks";
 import { useRegisterMutation } from "../redux/features/auth/authApi";
+import Buttons from "../components/ui/Button/Button";
+import Container from "../utils/container";
 const { Title } = Typography;
 
 const Register = () => {
@@ -34,7 +36,8 @@ const Register = () => {
     } };
 
   return (
-    <div
+    <Container>
+      <div
       style={{
         display: "flex",
         flexDirection: "column",
@@ -63,7 +66,13 @@ const Register = () => {
           <FormInput type="text" name="name" label="Name:" control={undefined} />
           <FormInput type="text" name="email" label="Email:" control={undefined} />
           <FormInput type="text" name="password" label="Password" control={undefined} />
-          <Button htmlType="submit">Register</Button>
+          {/* <Button htmlType="submit">Register</Button> */}
+     <div className="w-full flex justify-center align-middle items-center">
+     <Buttons type="submit" 
+          className=" px-16 items-center py-2
+           bg-gray-400 text-lg" 
+          label="Register"></Buttons>
+     </div>
         </MainForm>
         <p style={{ marginTop: "20px", color: "#6c757d" }}>
           Already have an account?{" "}
@@ -73,6 +82,7 @@ const Register = () => {
         </p>
       </Card>
     </div>
+    </Container>
   );
 };
 
