@@ -10,6 +10,7 @@ import {
   ShoppingCart,
   Bookmark,
   FileText,
+  LibraryBigIcon,
 } from "lucide-react";
 import { TUser } from "../../redux/features/auth/authSlice";
 import Navbar from "../../components/common/Navbar";
@@ -18,13 +19,16 @@ const { Sider, Content } = Layout;
 
 const menuItems = {
   ADMIN: [
-    { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
+   
     { key: "manage-users", label: "Manage Users", path: "/dashboard/manage-users", icon: <Users /> },
     { key: "revenue", label: "Revenue", path: "/dashboard/revenue", icon: <BarChart2 /> },
     { key: "orders", label: "Orders", path: "/dashboard/orders", icon: <ShoppingCart /> },
+    { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
     { key: "profile", label: "Profile", path: "/dashboard/profile", icon: <User /> },
+    { key: "allprodcts", label: "Manage Products", path: "/dashboard/manage-products", icon: < LibraryBigIcon/> },
   ],
   USER: [
+    { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
     { key: "profile", label: "Profile", path: "/user/profile", icon: <User /> },
     { key: "order-history", label: "My Order History", path: "/user/order-history", icon: <FileText /> },
     { key: "booklist", label: "Booklist", path: "/user/booklist", icon: <Bookmark /> },

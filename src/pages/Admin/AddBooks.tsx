@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Row, Col, Form, Input } from 'antd'; 
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import MainForm from "../../components/Form/MainForm";
@@ -6,6 +7,7 @@ import { useCreateProductMutation } from '../../redux/features/Books/Books.api';
 import Selectfield from '../../components/Form/Selectfield';
 import categoryOptions from '../../components/constatnt/categoryconts';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const AddBooks = () => {
   const [category, setCategory] = useState('');
@@ -34,10 +36,12 @@ const onSubmit = async (data: FieldValues) => {
     console.log("FormData to be sent:", formData); 
 
     await createProduct(formData).unwrap();
-    alert("Book Added Successfully");
-  } catch (err) {
-    console.error(err);
-    alert("Error while adding the book");
+    toast.error("Something went wrong");
+  } catch (err : any) {
+   
+    console.error(err, 'look there 3 ' );
+
+ toast.error(err.data.message||'something  went wrong');
   }
 };
 

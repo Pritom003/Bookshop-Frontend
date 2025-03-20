@@ -15,6 +15,7 @@ import Cart from "../pages/Payment/Cart";
 import Checkout from "../pages/Payment/CheckoutPage";
 import VerifyOrder from "../pages/Order/VerifyOrder";
 import UserTable from "../pages/Admin/UserMangement/UserTable";
+import AllProductsTable from "../pages/Admin/Productscontrol/AllProductsTable";
 
 const router = createBrowserRouter([
   {
@@ -36,10 +37,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard", // Admin route
-    element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,
+    element: <AdminDashboard />,
     children: [
       { path: "add-book", element: <AddBooks /> }, // Admin can add books
-      { path: "manage-users", element: <UserTable /> }, // Admin can add books
+      { path: "manage-users", element:<ProtectedRoute><UserTable /></ProtectedRoute>  }, // Admin can add books
+      { path: "manage-products", element:<ProtectedRoute><AllProductsTable /></ProtectedRoute>  }, // Admin can add books
       // Add more admin-specific routes here
     ],
   },

@@ -1,17 +1,15 @@
-
 import React, { useEffect } from "react";
 import { Table, Button, message } from "antd";
-// import { useGetAllUsersQuery, useBlockUserMutation } from "../../api/userApi";
 import { useDispatch } from "react-redux";
 import { useBlockUserMutation, useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 import { setUsers } from "../../../redux/features/user/userSlice";
-// import { setUsers } from "../../redux/features/usersSlice";
+import { UserOutlined } from "@ant-design/icons"; // Import Lucid icon
 
 const UserTable = () => {
   const dispatch = useDispatch();
   const { data, error, isLoading } = useGetAllUsersQuery({});
   const [blockUser, { isLoading: blocking }] = useBlockUserMutation();
-console.log(error);
+
   useEffect(() => {
     if (data) {
       dispatch(setUsers(data.data)); // Store fetched users in redux
@@ -28,11 +26,23 @@ console.log(error);
     }
   };
 
+  // Helper function to get the first word of the name
+  const getNameDisplay = (name: string) => {
+    const nameParts = name.split(" ");
+    return nameParts[0]; // Return only the first word
+  };
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (name: string, record: { role: string }) => (
+        <div>
+          {record.role === "ADMIN" && <UserOutlined style={{ marginRight: 8 }} />} {/* Add Lucid Icon */}
+          {getNameDisplay(name)} {/* Display only the first word of the name */}
+        </div>
+      ),
     },
     {
       title: "Email",

@@ -17,10 +17,12 @@ import { logOut, setUser } from "../features/auth/authSlice";
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
+      // console.log("Sending Token:", token)
       if (token) {
-        headers.set("authorization", `${token}`);
+        headers.set("authorization", `Bearer ${token}`);
+
       }
-      return headers;
+      return headers; 
     },
   });
   
