@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { Button, Modal, message, Popconfirm, Space, Table, Row, Col, Form, Input } from "antd";
 import { Controller, FieldValues, useForm } from "react-hook-form";

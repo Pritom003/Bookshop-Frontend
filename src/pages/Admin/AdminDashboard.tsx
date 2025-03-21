@@ -21,8 +21,8 @@ const menuItems = {
   ADMIN: [
    
     { key: "manage-users", label: "Manage Users", path: "/dashboard/manage-users", icon: <Users /> },
-    { key: "revenue", label: "Revenue", path: "/dashboard/revenue", icon: <BarChart2 /> },
-    { key: "orders", label: "Orders", path: "/dashboard/orders", icon: <ShoppingCart /> },
+    { key: "revenue", label: "Revenue", path: "/dashboard", icon: <BarChart2 /> },
+    { key: "orders", label: "Orders", path: "/dashboard/order-history", icon: <ShoppingCart /> },
     { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
     { key: "profile", label: "Profile", path: "/dashboard/profile", icon: <User /> },
     { key: "allprodcts", label: "Manage Products", path: "/dashboard/manage-products", icon: < LibraryBigIcon/> },

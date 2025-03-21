@@ -16,6 +16,8 @@ import Checkout from "../pages/Payment/CheckoutPage";
 import VerifyOrder from "../pages/Order/VerifyOrder";
 import UserTable from "../pages/Admin/UserMangement/UserTable";
 import AllProductsTable from "../pages/Admin/Productscontrol/AllProductsTable";
+import AdminOrderHistory from "../pages/Admin/OrderMangement/AdminOrderHistory";
+import ReveneStats from "../pages/Admin/OrderMangement/ReveneStats";
 
 const router = createBrowserRouter([
   {
@@ -40,8 +42,10 @@ const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [
       { path: "add-book", element: <AddBooks /> }, // Admin can add books
+      { path: "", element:<ProtectedRoute><ReveneStats /></ProtectedRoute>  }, // Admin can add books
       { path: "manage-users", element:<ProtectedRoute><UserTable /></ProtectedRoute>  }, // Admin can add books
       { path: "manage-products", element:<ProtectedRoute><AllProductsTable /></ProtectedRoute>  }, // Admin can add books
+      { path: "order-history", element:<ProtectedRoute><AdminOrderHistory /></ProtectedRoute>  }, // Admin can add books
       // Add more admin-specific routes here
     ],
   },

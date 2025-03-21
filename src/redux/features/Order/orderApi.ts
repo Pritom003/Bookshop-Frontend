@@ -12,6 +12,7 @@ const orderApi = baseApi.injectEndpoints({
     getOrders: builder.query({
       query: () => ({
         url: "/order",
+        method: "GET",
       }),
     }),
     verifyOrder: builder.query({
@@ -26,6 +27,24 @@ const orderApi = baseApi.injectEndpoints({
     method: "GET",
   }),
 }),
+deleteOrder: builder.mutation({
+  query: (orderId) => ({
+    url: `/order/${orderId}`,
+    method: "DELETE",
+  }),
+}),
+getRevenue: builder.query({
+  query: () => ({
+    url: "/order/revenue",
+    method: "GET",
+  }),
+}),
+getTopOrderedProducts: builder.query({
+  query: () => ({
+    url: "/order/top-book",
+    method: "GET",
+  }),
+}),
   }),
 });
 
@@ -35,5 +54,8 @@ export const {
   useCreateOrderMutation,
   useGetOrdersQuery,
   useVerifyOrderQuery,
-  useGetMultipleProductsQuery
+  useGetMultipleProductsQuery,
+  useDeleteOrderMutation, 
+  useGetRevenueQuery, 
+  useGetTopOrderedProductsQuery 
 } = orderApi;

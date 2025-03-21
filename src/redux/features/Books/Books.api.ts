@@ -50,6 +50,28 @@ const productApi = baseApi.injectEndpoints({
       }),
       //   providesTags: [tagTypes.product],
     }),
+    
+    getProductReviews: builder.query({
+      query: (productId: string) => ({
+        url: `/review/${productId}`,
+        method: "GET",
+      }),
+    }),
+    deleteReview: builder.mutation({
+      query: (id: string) => ({
+        url: `/review/${id}`,
+        method: "DELETE",
+      }),
+      //   invalidatesTags: [tagTypes.product],
+    }),
+    
+    createReview: builder.mutation({
+      query: (body) => ({
+        url: "/review",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -60,4 +82,8 @@ export const {
   useEditProductMutation,
   useDeleteProductMutation,
   useGetPriceRangeQuery,
+  useGetProductReviewsQuery, // <-- Newly added
+  useCreateReviewMutation,  
+  useDeleteReviewMutation,
+
 } = productApi;

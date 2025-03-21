@@ -1,19 +1,61 @@
-import React from 'react';
-import { Rate, Input, Button, Row, Col } from 'antd';
-import { useParams } from 'react-router-dom';
-import images from '../assets/images/Banner3.jpg';
-import { useGetSingleProductQuery } from '../redux/features/Books/Books.api';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
+import { Rate, Input, Button, Row, Col, List, Avatar, Spin } from "antd";
+import { useParams } from "react-router-dom";
+import images from "../assets/images/Banner3.jpg";
+import {
+  useGetSingleProductQuery,
+  useGetProductReviewsQuery,
+  useCreateReviewMutation,
+  useDeleteReviewMutation,
+} from "../redux/features/Books/Books.api";
+import { useAppSelector } from "../redux/hooks";
+import { selectCurrentUser, TUser } from "../redux/features/auth/authSlice";
+import { DeleteIcon } from "lucide-react";
+import { toast } from "sonner";
 
 const { TextArea } = Input;
 
 const DetailsBook = () => {
-    const { id } = useParams();
-    const { data: book, isLoading } = useGetSingleProductQuery(id || '');
+  const { id } = useParams();
 
-    if (isLoading) return <p>Loading...</p>;
+  
+    const user = useAppSelector(selectCurrentUser) as TUser;
+    console.log(user);
+  const { data: book, isLoading: isBookLoading } = useGetSingleProductQuery(id || "");
+  const { data: reviews, isLoading: isReviewsLoading, refetch } = useGetProductReviewsQuery(id || "");
+  const [deleteReview] = useDeleteReviewMutation();
+  const [createReview] = useCreateReviewMutation();
+  const [visibleReviews, setVisibleReviews] = useState(2);
 
-    return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '20px' }}>
+  const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
+
+  if (isBookLoading) return <p>Loading...</p>;
+  const handleDeleteReview = async (id: string) => {
+    if (!user) {
+      toast.error("You must be logged in to delete a review.");
+      return;
+    }
+  
+    try {
+      await deleteReview(id).unwrap();
+      toast.success("Review deleted successfully");
+      refetch();
+    } catch (error) {
+      console.error("Delete review error:", error);
+      toast.error("Failed to delete review. Please try again.");
+    }
+  };
+  
+  
+  const handleReviewSubmit = async () => {
+    await createReview({ productId: id, ...newReview });
+    setNewReview({ rating: 5, comment: "" });
+  };
+
+  return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", padding: "20px" }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '20px' }}>
             <div style={{ width: '100%', maxWidth: '800px' }}> {/* Restrict width for better layout */}
                 <Row gutter={[8, 16]}>
                     <Col xs={24} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -47,15 +89,72 @@ const DetailsBook = () => {
                         <div style={{ marginTop: '20px' }}>
                             <p><strong>Description:</strong> {book?.data.description}</p>
                             <p><strong>Last Update:</strong> {book?.data.updatedAt}</p>
-                            <Rate allowHalf defaultValue={book?.data.rating} />
-                            <TextArea rows={4} placeholder="Write a review..." style={{ marginTop: '10px' }} />
-                            <Button type="primary" style={{ marginTop: '10px' }}>Submit Review</Button>
+                            <div style={{ marginTop: "20px" }}>
+                                 {/* Add Review */}
+              <h3>Add a Review</h3>
+              <Rate
+                allowHalf
+                defaultValue={newReview.rating}
+                onChange={(value) => setNewReview({ ...newReview, rating: value })}
+              />
+              <TextArea
+                rows={4}
+                value={newReview.comment}
+                onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                placeholder="Write a review..."
+                style={{ marginTop: "10px" }}
+              />
+              <Button type="primary" onClick={handleReviewSubmit} style={{ marginTop: "10px" }}>
+                Submit Review
+              </Button>
+  <h2>Reviews</h2>
+  {isReviewsLoading ? (
+    <Spin />
+  ) : (
+    <>
+    <List
+  itemLayout="horizontal"
+  dataSource={reviews?.data?.slice(0, visibleReviews) || []} // Show only visible reviews
+  renderItem={(item: { user: string; userId: string; rating: number; comment: string; _id: string }) => (
+    <List.Item
+      actions={
+        user?.id === item.userId || user?.role=== "ADMIN"
+          ? [<DeleteIcon key="delete" style={{ color: "red" }} onClick={() => handleDeleteReview(item._id)} />]
+          : []
+      }
+    >
+      <List.Item.Meta
+        avatar={<Avatar>{item?.user?.charAt(0)}</Avatar>}
+        title={<span>{item.user}</span>}
+        description={
+          <>
+            <Rate value={item.rating} disabled />
+            <p>{item.comment}</p>
+          </>
+        }
+      />
+    </List.Item>
+  )}
+/>
+      
+      {/* "See More" Button - Placed Outside the List */}
+      {reviews?.data?.length > visibleReviews && (
+        <Button type="link" onClick={() => setVisibleReviews((prev) => prev + 3)}>
+          See More
+        </Button>
+      )}
+    </>
+  )}
+       
+            </div>
                         </div>
                     </Col>
                 </Row>
             </div>
         </div>
-    );
+     
+    </div>
+  );
 };
 
 export default DetailsBook;

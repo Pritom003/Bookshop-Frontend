@@ -18,7 +18,7 @@ const AllBooks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState(""); // Track selected category
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(6);
+  const [pageSize] = useState(9);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -103,7 +103,8 @@ const AllBooks = () => {
           </div>
 
           {/* Books List */}
-          <div className="md:col-span-2 grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="md:col-span-2 grid
+           xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.length === 0 ? (
               <div className="col-span-2 text-center">
                 <Alert message="No books found" type="warning" showIcon />
@@ -114,20 +115,23 @@ const AllBooks = () => {
             ) : (
               products.map((book: Book) => (
                 <div key={book._id} className="flex flex-col items-center">
-                  <Link to={`/book/${book._id}`} className="relative w-[150px] h-[200px] shadow-lg rounded-md overflow-hidden">
+                  <Link to={`/book/${book._id}`} className="relative w-[180px] h-[260px] shadow-lg rounded-md overflow-hidden">
                     <img
                       src={book.bookCover}
                       alt={book.title}
                       className="w-full h-full object-cover shadow-black shadow-inner"
                     />
                   </Link>
-                  <div className="text-center space-y-1">
-                    <h3 className="text-base font-semibold leading-tight">{book.title}</h3>
-                    <p className="text-gray-500 text-sm font-medium">Price: ${book.price}</p>
-                    <button onClick={() => handleAddToCart(book)} className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
+                  <div className="text-center h-44 pt-4">
+                  <p className="text-gray-500 text-sm font-medium">Price: ${book.price}</p>
+                    <h3 className="text-base font-semibold max-w-44 h-12 leading-tight">{book.title}</h3>
+                <div className="flex items-center justify-center mt-2">
+                     
+                <button onClick={() => handleAddToCart(book)} className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
                       hover:text-blue-600 transition hover:border-blue-600 text-sm">
                       <ShoppingCart size={16} /> Add to Cart
                     </button>
+                  </div>
                   </div>
                 </div>
               ))
