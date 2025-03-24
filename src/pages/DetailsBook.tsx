@@ -25,9 +25,9 @@ const DetailsBook = () => {
   const { data: book, isLoading: isBookLoading } = useGetSingleProductQuery(id || "");
   const { data: reviews, isLoading: isReviewsLoading, refetch } = useGetProductReviewsQuery(id || "");
   const [deleteReview] = useDeleteReviewMutation();
-  const [createReview] = useCreateReviewMutation();
+  const [createReview, { isError: reviewErr ,error}] = useCreateReviewMutation();
   const [visibleReviews, setVisibleReviews] = useState(2);
-
+console.log(error);
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
 
   if (isBookLoading) return <p>Loading...</p>;
@@ -82,6 +82,7 @@ const DetailsBook = () => {
                                 </div>
                                 <p><strong>Category:</strong> {book?.data.category}</p>
                                 <p><strong>Price:</strong> ${book?.data.price}</p>
+                <Rate  allowHalf   className="text-yellow-600 text-sm" disabled defaultValue={book?.data.avgRating} />
                             </div>
                         </div>
 

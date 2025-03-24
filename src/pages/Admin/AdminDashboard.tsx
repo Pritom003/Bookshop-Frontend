@@ -9,7 +9,7 @@ import {
   User,
   ShoppingCart,
   Bookmark,
-  FileText,
+ 
   LibraryBigIcon,
 } from "lucide-react";
 import { TUser } from "../../redux/features/auth/authSlice";
@@ -21,17 +21,16 @@ const menuItems = {
   ADMIN: [
    
     { key: "manage-users", label: "Manage Users", path: "/dashboard/manage-users", icon: <Users /> },
-    { key: "revenue", label: "Revenue", path: "/dashboard", icon: <BarChart2 /> },
+    { key: "revenue", label: "Revenue", path: "/dashboard/stats", icon: <BarChart2 /> },
     { key: "orders", label: "Orders", path: "/dashboard/order-history", icon: <ShoppingCart /> },
     { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
     { key: "profile", label: "Profile", path: "/dashboard/profile", icon: <User /> },
     { key: "allprodcts", label: "Manage Products", path: "/dashboard/manage-products", icon: < LibraryBigIcon/> },
   ],
   USER: [
+    { key: "profile", label: "Profile", path: "/dashboard", icon:  <User /> },
     { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
-    { key: "profile", label: "Profile", path: "/user/profile", icon: <User /> },
-    { key: "order-history", label: "My Order History", path: "/user/order-history", icon: <FileText /> },
-    { key: "booklist", label: "Booklist", path: "/user/booklist", icon: <Bookmark /> },
+    { key: "mybooks", label: "mybooks", path: "/dashboard/mybooks", icon: <Bookmark /> },
   ],
 };
 

@@ -3,18 +3,40 @@ import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import { useEffect, useState } from "react";
 import PageLoader from "../ui/PageLoader";
+import Footers from "../common/Footers";
+import { ArrowUpCircle } from "lucide-react";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const MainLayout = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 1000); // Delay to show animation
+    const timeout = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timeout);
   }, [location]);
+
+  // Handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <>
@@ -23,7 +45,7 @@ const MainLayout = () => {
 
       <Layout style={{ minHeight: "100vh" }}>
         {/* Navbar */}
-        <div className="mb-16">
+        <div className="">
           <Navbar />
         </div>
 
@@ -33,9 +55,17 @@ const MainLayout = () => {
         </Content>
 
         {/* Footer */}
-        <Footer style={{ textAlign: "center", background: "#333", color: "white", padding: "10px 0" }}>
-          © 2025 Chapters & Co. All rights reserved.
-        </Footer>
+        <Footers />
+
+        {/* Scroll to Top Button */}
+        {showScrollButton && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 bg-[#2972b6] text-white p-3 rounded-full shadow-lg hover:bg-[#1d5b8f] transition"
+          >
+            <ArrowUpCircle size={32} />
+          </button>
+        )}
       </Layout>
     </>
   );

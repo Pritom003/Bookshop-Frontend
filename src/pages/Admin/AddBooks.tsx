@@ -8,9 +8,11 @@ import Selectfield from '../../components/Form/Selectfield';
 import categoryOptions from '../../components/constatnt/categoryconts';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
 
 const AddBooks = () => {
   const [category, setCategory] = useState('');
+    const { user } = useSelector((state: any) => state.auth);
   const { control } = useForm();
   const [createProduct , {  error }] = useCreateProductMutation();
 console.log(error);
@@ -25,7 +27,9 @@ const onSubmit = async (data: FieldValues) => {
     formData.append("price", data.price);
     formData.append("description", data.description);
     formData.append("quantity", data.quantity);
-
+    if (user && user.id) {
+      formData.append("user", user.id); // Add user ID as a reference
+    }
     if (data.authorImage) {
       formData.append("authorImage", data.authorImage);
     }

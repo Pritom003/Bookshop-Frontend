@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import bgImage from "../assets/images/Screenshot 2025-03-17 143039.png";
+import bgImage from "../assets/images/slik.png";
 import { NotebookPen } from "lucide-react";
 
 interface CommontHeroProps {

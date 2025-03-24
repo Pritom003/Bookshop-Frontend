@@ -18,6 +18,10 @@ import UserTable from "../pages/Admin/UserMangement/UserTable";
 import AllProductsTable from "../pages/Admin/Productscontrol/AllProductsTable";
 import AdminOrderHistory from "../pages/Admin/OrderMangement/AdminOrderHistory";
 import ReveneStats from "../pages/Admin/OrderMangement/ReveneStats";
+import Profile from "../pages/Dashboard/Profile";
+import MyBooks from "../pages/Dashboard/MyBooks";
+import ChangePassword from "../pages/ChagnePassword";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +33,8 @@ const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/all-books", element: <AllBooks /> },
       { path: "/login", element: <Login /> },
+      { path: "/reset-password", element: <ChangePassword /> },
+      { path: "/forget-password", element: <ForgotPassword /> },
       { path: "/regi", element: <Register /> },
       { path: "/book/:id", element: <DetailsBook /> },
       { path: "/cart", element: <Cart /> },
@@ -41,8 +47,10 @@ const router = createBrowserRouter([
     path: "/dashboard", // Admin route
     element: <AdminDashboard />,
     children: [
+      { path: "", element: <Profile /> }, // Admin can add books
       { path: "add-book", element: <AddBooks /> }, // Admin can add books
-      { path: "", element:<ProtectedRoute><ReveneStats /></ProtectedRoute>  }, // Admin can add books
+      { path: "mybooks", element: <MyBooks/> }, // Admin can add books
+      { path: "stats", element:<ProtectedRoute><ReveneStats /></ProtectedRoute>  }, // Admin can add books
       { path: "manage-users", element:<ProtectedRoute><UserTable /></ProtectedRoute>  }, // Admin can add books
       { path: "manage-products", element:<ProtectedRoute><AllProductsTable /></ProtectedRoute>  }, // Admin can add books
       { path: "order-history", element:<ProtectedRoute><AdminOrderHistory /></ProtectedRoute>  }, // Admin can add books

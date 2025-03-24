@@ -45,7 +45,7 @@ const BookCard = ({
   };
 
   return (
-    <div className={`flex flex-col w-44 pt-2 items-center ${className}`} style={style}>
+    <div className={`flex flex-col align-middle justify-center w-44 pt-2 items-center ${className}`} style={style}>
       {/* Book Cover with Flexible Height */}
       <Link
         to={`/book/${book._id}`}
@@ -72,7 +72,7 @@ const BookCard = ({
         <div className={`flex items-${textAlign} `}>
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center gap-1 px-2  border-b border-black 
+            className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
             hover:text-blue-600 transition hover:border-blue-600 text-sm"
           >
             <ShoppingCart size={16} /> Add to Cart

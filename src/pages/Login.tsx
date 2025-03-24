@@ -17,26 +17,31 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login] = useLoginMutation();
-
   const onSubmit = async (data: FieldValues) => {
+    console.log("Login Form Data:", data);
     try {
       const userInfo = {
         email: data.email,
         password: data.password,
       };
       const res = await login(userInfo).unwrap();
+      
+      console.log("Login API Response:", res);
+  
       const user = verifiedToken(res.data.accessToken);
       
-      console.log("Decoded User:", user); // Debugging output
-      console.log("Token:", res.data.accessToken); // Debugging output
+      console.log("Decoded User:", user);
+      console.log("Token:", res.data.accessToken);
       
       dispatch(setUser({ user, token: res.data.accessToken }));
       toast.success("Login successful");
       navigate(`/`);
     } catch (err) {
+      console.log("Login Error:", err);
       toast.error("Invalid credentials");
     }
   };
+  
   
   return (
     <div
@@ -75,6 +80,12 @@ const Login = () => {
           Don't have an account? {" "}
           <Link to="/regi" style={{ color: "#1D7B84", fontWeight: "bold" }}>
             Register here
+          </Link>
+        </p>
+        <p style={{ marginTop: "20px", color: "#6c757d" }}>
+          Forgot your password? {" "}
+          <Link to="/forget-password" style={{ color: "#1D7B84", fontWeight: "bold" }}>
+            Forgot
           </Link>
         </p>
       </Card>

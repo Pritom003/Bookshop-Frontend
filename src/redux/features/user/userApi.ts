@@ -15,7 +15,21 @@ const userApi = baseApi.injectEndpoints({
         method: "PATCH",
       }),
     }),
+    getMyProfile: build.query({
+      query: () => ({
+        url: "profile",
+        method: "GET",
+      }),
+    }),
+    updateMyProfile: build.mutation({
+      query: (formData) => ({
+        url: `profile`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    
   }),
 });
 
-export const { useGetAllUsersQuery, useBlockUserMutation } = userApi;
+export const { useGetAllUsersQuery, useBlockUserMutation,useGetMyProfileQuery,useUpdateMyProfileMutation } = userApi;

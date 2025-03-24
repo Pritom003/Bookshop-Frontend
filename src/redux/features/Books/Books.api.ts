@@ -72,6 +72,7 @@ const productApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    
   }),
 });
 

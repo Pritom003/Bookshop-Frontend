@@ -1,19 +1,27 @@
-import AboutUs from "../components/Home/AoutUs";
+
 import BestSells from "../components/Home/BestSells";
 import CnCProgramming from "../components/Home/CnCProgramming";
-import DisplayBook from "../components/Home/DisplayBooks";
+import Discount from "../components/Home/Discount";
+
 import Hero from "../components/Home/Hero";
+import NewArrival from "../components/Home/NewArival";
+// import NewArrival from "../components/Home/NewArival";
+import SpecialPoints from "../components/Home/SpecialPoints";
 
 
 const Home = () => {
     return (
         <div>
             <Hero></Hero>
-
-            <AboutUs></AboutUs>
             <BestSells></BestSells>
+            <SpecialPoints></SpecialPoints>
+            {/* <AboutUs></AboutUs> */}
+         
+      
+            <Discount></Discount>
+            <NewArrival/>
             <CnCProgramming/>
-            <DisplayBook/>
+            {/* <DisplayBook/> */}
         </div>
     );
 };

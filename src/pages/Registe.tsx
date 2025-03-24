@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Card, Typography } from "antd";
-import "antd/dist/reset.css"; 
-import { FieldValues } from "react-hook-form";
+import { Button, Card, Form, Input, Typography } from "antd";
+import "antd/dist/reset.css";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { verifiedToken } from "../utils/verifiedToken";
@@ -12,76 +12,101 @@ import { useAppDispatch } from "../redux/hooks";
 import { useRegisterMutation } from "../redux/features/auth/authApi";
 import Buttons from "../components/ui/Button/Button";
 import Container from "../utils/container";
+
 const { Title } = Typography;
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
+
+  const { control, handleSubmit, setValue } = useForm(); // ✅ Initialize useForm
+
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     try {
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      };
-      const res = await register(userInfo).unwrap();
-      const user = verifiedToken(res.data.accessToken) ;
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      if (data.Profileimage) {
+        formData.append("Profileimage", data.Profileimage); // ✅ Ensure correct file upload
+      }
+
+      const res = await register(formData).unwrap();
+      const user = verifiedToken(res.data.accessToken);
       dispatch(setUser({ user: user, token: res.data.accessToken }));
+
       toast.success("Registration successful");
       navigate(`/`);
     } catch (err) {
       toast.error("Something went wrong");
-    } };
+    }
+  };
 
   return (
     <Container>
       <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        backgroundColor: "#f8f9fa",
-      }}
-    >
-      <Title level={2} style={{ marginBottom: 10 }}>
-        Register your accunt 
-      </Title>
-      <p style={{ marginBottom: 30, color: "#6c757d" }}>
-        Home / Create Account
-      </p>
-
-      <Card
         style={{
-          width: 500,
-          padding: "30px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          backgroundColor: "#f8f9fa",
         }}
       >
-        <MainForm onSubmit={onSubmit}>
-          <FormInput type="text" name="name" label="Name:" control={undefined} />
-          <FormInput type="text" name="email" label="Email:" control={undefined} />
-          <FormInput type="text" name="password" label="Password" control={undefined} />
-          {/* <Button htmlType="submit">Register</Button> */}
-     <div className="w-full flex justify-center align-middle items-center">
-     <Buttons type="submit" 
-          className=" px-16 items-center py-2
-           bg-gray-400 text-lg" 
-          label="Register"></Buttons>
-     </div>
-        </MainForm>
-        <p style={{ marginTop: "20px", color: "#6c757d" }}>
-          Already have an account?{" "}
-          <Link to="/login" style={{ color: "#1D7B84", fontWeight: "bold" }}>
-            Login here
-          </Link>
-        </p>
-      </Card>
-    </div>
+        <Title level={2} style={{ marginBottom: 10 }}>
+          Register your account
+        </Title>
+        <p style={{ marginBottom: 30, color: "#6c757d" }}>Home / Create Account</p>
+
+        <Card
+          style={{
+            width: 500,
+            padding: "30px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <MainForm onSubmit={handleSubmit(onSubmit)}> {/* ✅ Use handleSubmit */}
+            <FormInput type="text" name="name" label="Name:" control={control} />
+            <FormInput type="text" name="email" label="Email:" control={control} />
+            <FormInput type="password" name="password" label="Password" control={control} />
+
+            {/* ✅ Fixed Profile Image Upload */}
+            <Controller
+              name="Profileimage"
+              control={control}
+              render={({ field }) => (
+                <Form.Item label="Profile Image">
+                  <Input
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      setValue("Profileimage", file); // ✅ Correctly update file in form state
+                    }}
+                  />
+                </Form.Item>
+              )}
+            />
+
+            <div className="w-full flex justify-center align-middle items-center">
+              <Buttons
+                type="submit"
+                className="px-16 items-center py-2 bg-gray-400 text-lg"
+                label="Register"
+              />
+            </div>
+          </MainForm>
+
+          <p style={{ marginTop: "20px", color: "#6c757d" }}>
+            Already have an account?{" "}
+            <Link to="/login" style={{ color: "#1D7B84", fontWeight: "bold" }}>
+              Login here
+            </Link>
+          </p>
+        </Card>
+      </div>
     </Container>
   );
 };

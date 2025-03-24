@@ -26,7 +26,8 @@ const Navbar = () => {
     cartData?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   return (
-    <nav className="w-full bg-white py-4 px-20 lg:px-2 top-0 z-50 fixed">
+    <nav className="w-full bg-white py-4 px-20 
+    lg:px-2 top-0 z-50 ">
       <div className="container mx-auto flex items-center justify-between">
         {/* Lottie Logo */}
         <div className="w-64 flex items-center justify-center h-10">
