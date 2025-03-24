@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
-import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart } from "../../../redux/features/cart/cartSlice";
+import { Link } from "react-router-dom"; 
+import { ShoppingCart } from "lucide-react"; 
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks"; 
+import { addToCart } from "../../../redux/features/cart/cartSlice"; 
 import { Book } from "../../../types/types.books";
 
 interface BookCardProps {
@@ -22,6 +22,11 @@ const BookCard = ({
   textAlign = "center", // Default is center, but can be set to start
 }: BookCardProps) => {
   const dispatch = useAppDispatch();
+  
+  // Assuming there's a selector to get the cart contents and calculate the total order quantity for the product
+  const cart = useAppSelector((state) => state.cart);
+  const productInCart = cart.items.find(item => item.product === book._id);
+  const totalOrdered = productInCart ? productInCart.quantity : 0;
 
   const handleAddToCart = () => {
     console.log("Clicked Add to Cart:", book._id);
@@ -43,6 +48,8 @@ const BookCard = ({
     const words = title.split(" ");
     return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : title;
   };
+
+  const isOutOfStock = book.quantity === totalOrdered;
 
   return (
     <div className={`flex flex-col align-middle justify-center w-44 pt-2 items-center ${className}`} style={style}>
@@ -72,10 +79,19 @@ const BookCard = ({
         <div className={`flex items-${textAlign} `}>
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
-            hover:text-blue-600 transition hover:border-blue-600 text-sm"
+            className={`flex items-center justify-center gap-1 px-2 py-1 border-b border-black 
+              hover:text-blue-600 transition hover:border-blue-600 text-sm ${isOutOfStock ?
+               "bg-gray-300 cursor-not-allowed" : ""}`}
+            disabled={isOutOfStock}
           >
-            <ShoppingCart size={16} /> Add to Cart
+           {isOutOfStock ? (
+  "Out of Stock"
+) : (
+  <>
+    Add to Cart <ShoppingCart size={16} />
+  </>
+)}
+
           </button>
         </div>
       </div>

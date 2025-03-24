@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Alert, Pagination } from "antd";
+import { Alert, Pagination, Slider } from "antd";
 import { useGetProductsQuery } from "../redux/features/Books/Books.api";
 import categoryOptions from "../components/constatnt/categoryconts";
 import { Book } from "../types/types.books";
@@ -23,15 +23,15 @@ const AllBooks = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-// console.log();
-// console.log(user);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]); // Default range 0 - 100
 
   const { data: productsData, isLoading, isError } = useGetProductsQuery({
     searchTerm,
     page: currentPage,
     limit: pageSize,
-    category, // Pass category in the request
-  });
+    category,
+    priceRange, // ✅ Pass price range filter
+  })
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-32">Loading...</div>;
@@ -101,6 +101,19 @@ const AllBooks = () => {
                 </button>
               ))}
             </div>
+            <h2 className="mt-6 mb-3 font-semibold text-lg">Price Range</h2>
+            <Slider
+  range
+  min={0}
+  max={500} // Adjust as needed
+  step={10}
+  value={priceRange}
+  onChange={(value: number[]) => setPriceRange(value as [number, number])} // Correctly update the priceRange
+/>
+
+<span className="text-sm font-medium">
+  ${priceRange[0]} - ${priceRange[1]}
+</span>
           </div>
 
           {/* Books List */}

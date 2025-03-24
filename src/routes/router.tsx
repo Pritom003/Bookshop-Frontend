@@ -22,6 +22,7 @@ import Profile from "../pages/Dashboard/Profile";
 import MyBooks from "../pages/Dashboard/MyBooks";
 import ChangePassword from "../pages/ChagnePassword";
 import ForgotPassword from "../pages/ForgotPassword";
+import AuthRoute from "../components/layout/Authroute";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       { path: "/reset-password", element: <ChangePassword /> },
       { path: "/forget-password", element: <ForgotPassword /> },
       { path: "/regi", element: <Register /> },
-      { path: "/book/:id", element: <DetailsBook /> },
+      { path: "/book/:id", element: <AuthRoute><DetailsBook /></AuthRoute> },
       { path: "/cart", element: <Cart /> },
       { path: "/checkout", element: <Checkout /> },
       { path: "/order", element: <Orderdetails /> },
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard", // Admin route
-    element: <AdminDashboard />,
+    element:<AuthRoute> <AdminDashboard /></AuthRoute>,
     children: [
       { path: "", element: <Profile /> }, // Admin can add books
       { path: "add-book", element: <AddBooks /> }, // Admin can add books

@@ -64,7 +64,7 @@ console.log(orderDatas?.data);
               <div className="text-sm text-gray-700 space-y-3 border-b pb-4">
                 <p><strong>Order ID:</strong> {orderData.order_id || "N/A"}</p>
                 <p><strong>Date:</strong> {new Date(orderData.date_time).toLocaleString() || "N/A"}</p>
-                <p><strong>Status:</strong> {orderData.transaction_status || "N/A"}</p>
+                <p><strong>Status:</strong> {orderData.bank_status || "N/A"}</p>
               </div>
 
               <div className="text-sm text-gray-700 space-y-3 border-b pb-4 mt-4">
