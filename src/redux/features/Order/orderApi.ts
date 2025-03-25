@@ -45,6 +45,12 @@ getTopOrderedProducts: builder.query({
     method: "GET",
   }),
 }),
+getOrderByuser: builder.query({
+  query: (userID) => ({
+    url: `/order/user/${userID}`,
+    method: "GET",
+  }),
+}),
   }),
 });
 
@@ -57,5 +63,6 @@ export const {
   useGetMultipleProductsQuery,
   useDeleteOrderMutation, 
   useGetRevenueQuery, 
-  useGetTopOrderedProductsQuery 
+  useGetTopOrderedProductsQuery ,
+  useGetOrderByuserQuery
 } = orderApi;

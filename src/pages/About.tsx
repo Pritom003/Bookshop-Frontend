@@ -1,15 +1,24 @@
+import CommontHero from "../utils/CommontHero";
+import Container from "../utils/container";
+import bgHero from '../assets/images/classmate-classroom-sharing-international-friend-concept.jpg'
+import BestBooksInTown from "../components/AboutSection/BestBooksInTown";
+import HowToBuyBook from "../components/AboutSection/HowTobuyBook";
 
 const About = () => {
     return (
-        <div style={{textAlign: 'center',}}>
-            About  Lorem, ipsum dolor
-             sit amet consectetur adipisicing elit. Sed,
-            reiciendis laborum nihil,
-             delectus consequatur accusantium reprehenderit 
-            ullam magni porro unde
-             nostrum quas quo qui et labore, consequuntur
-             nemo eaque veniam.
-        </div>
+   <Container>
+    <CommontHero
+      backgroundImage={bgHero}
+      CurrentPage='About'
+      description= 'Know more about Chapter and Co '
+    />
+<div className="mt-20">
+    <BestBooksInTown></BestBooksInTown>
+</div>
+   <div className="">
+    <HowToBuyBook></HowToBuyBook>
+   </div>
+   </Container>
     );
 };
 

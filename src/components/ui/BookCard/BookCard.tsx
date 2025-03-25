@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react"; 
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"; 
 import { addToCart } from "../../../redux/features/cart/cartSlice"; 
-import { Book } from "../../../types/types.books";
+import { toast } from "sonner";
+
 
 interface BookCardProps {
-  book: Book;
+  book: any;
   className?: string;
   style?: React.CSSProperties;
   imageHeight?: string; // Allows setting custom image height
@@ -34,13 +35,14 @@ const BookCard = ({
       addToCart({
         product: book._id,
         name: book.title || book.name,
-        price: Number(book.price || book.Price),
+        price: Number(book.price || book.price),
         quantity: 1,
-        inStock: book.inStock,
+        inStock: book.quantity ||book.totalQuantity,
         image: book.bookCover || book.productCover || "",
-        stock: book.stock,
+    
       })
     );
+    toast.success("Added to cart!");
   };
 
   // Function to limit the title to a maximum of three words
@@ -48,8 +50,8 @@ const BookCard = ({
     const words = title.split(" ");
     return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : title;
   };
-
-  const isOutOfStock = book.quantity === totalOrdered;
+const bookQuantity= book.quantity ||book.totalQuantity
+  const isOutOfStock = bookQuantity === totalOrdered;
 
   return (
     <div className={`flex flex-col align-middle justify-center w-44 pt-2 items-center ${className}`} style={style}>

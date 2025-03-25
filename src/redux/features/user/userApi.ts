@@ -15,6 +15,25 @@ const userApi = baseApi.injectEndpoints({
         method: "PATCH",
       }),
     }),
+    
+    makeAdmin: build.mutation({
+      query: (userId) => ({
+        url: `users/${userId}/make-admin`,
+        method: "PATCH",
+      }),
+    }),
+    removeAdmin: build.mutation({
+      query: (userId) => ({
+        url: `users/${userId}/remove-admin`,
+        method: "PATCH",
+      }),
+    }),
+    deleteUser: build.mutation({
+      query: (userId) => ({
+        url: `users/${userId}`,
+        method: "DELETE",
+      }),
+    }),
     getMyProfile: build.query({
       query: () => ({
         url: "profile",
@@ -32,4 +51,6 @@ const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllUsersQuery, useBlockUserMutation,useGetMyProfileQuery,useUpdateMyProfileMutation } = userApi;
+export const { useGetAllUsersQuery, useBlockUserMutation,useGetMyProfileQuery,useUpdateMyProfileMutation ,  useMakeAdminMutation,
+  useRemoveAdminMutation,
+  useDeleteUserMutation,} = userApi;

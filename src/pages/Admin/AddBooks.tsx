@@ -54,67 +54,66 @@ const onSubmit = async (data: FieldValues) => {
     <div style={{ padding: '20px' }}>
       <h1>Add New Book</h1>
       <MainForm onSubmit={onSubmit}>
-        <Row gutter={16}>
-          <Col span={12}>
-            <FormInput type="text" name="title" label="Title" control={undefined} />
-          </Col>
-          <Col span={12}>
-            <FormInput type="text" name="author" label="Author" control={undefined} />
-          </Col>
-          <Col span={12}>
-          <Controller
-                name="authorImage"
-                render={({ field: { onChange, value, ...field } }) => (
-                  <Form.Item label="Author Image">
-                    <Input
-                      type="file"
-                      value={value?.fileName}
-                      {...field}
-                      onChange={(e) => onChange(e.target.files?.[0])}
-                    />
-                  </Form.Item>
-                )}
-              />
-          </Col>
-          <Col span={12}>
-          {/* <Col xs={24} sm={12} md={12}> */}
-          <Selectfield
-            label="Category"
-            name="category"
-            control={control} 
-            options={categoryOptions} 
-            disabled={false} 
-            value={category} 
-            width={'200px'}
-            onChange={(value) => setCategory(value)} // Update the selected category
+      <Row gutter={16}>
+  <Col xs={24} md={12}>
+    <FormInput type="text" name="title" label="Title" control={undefined} />
+  </Col>
+  <Col xs={24} md={12}>
+    <FormInput type="text" name="author" label="Author" control={undefined} />
+  </Col>
+  <Col xs={24} md={12}>
+    <Controller
+      name="authorImage"
+      render={({ field: { onChange, value, ...field } }) => (
+        <Form.Item label="Author Image">
+          <Input
+            type="file"
+            value={value?.fileName}
+            {...field}
+            onChange={(e) => onChange(e.target.files?.[0])}
           />
-        {/* </Col> */}
-          </Col>
-          <Col span={12}>
-            <FormInput type="number" name="price" label="Price" control={undefined} />
-          </Col>
-          <Col span={12}>
-            <FormInput type="text" name="description" label="Description" control={undefined} />
-          </Col>
-          <Col span={12}>
-            <FormInput type="number" name="quantity" label="Quantity" control={undefined} />
-          </Col>
-          <Col span={12}>
-          <Controller
-                name="bookCover"
-                render={({ field: { onChange, value, ...field } }) => (
-                  <Form.Item label="Book Cover">
-                    <Input
-                      type="file"
-                      value={value?.fileName}
-                      {...field}
-                      onChange={(e) => onChange(e.target.files?.[0])}
-                    />
-                  </Form.Item>
-                )}
-              />
-          </Col>
-        </Row>
+        </Form.Item>
+      )}
+    />
+  </Col>
+  <Col xs={24} md={12}>
+    <Selectfield
+      label="Category"
+      name="category"
+      control={control} 
+      options={categoryOptions} 
+      disabled={false} 
+      value={category} 
+      width={'200px'}
+      onChange={(value) => setCategory(value)}
+    />
+  </Col>
+  <Col xs={24} md={12}>
+    <FormInput type="number" name="price" label="Price" control={undefined} />
+  </Col>
+  <Col xs={24} md={12}>
+    <FormInput type="text" name="description" label="Description" control={undefined} />
+  </Col>
+  <Col xs={24} md={12}>
+    <FormInput type="number" name="quantity" label="Quantity" control={undefined} />
+  </Col>
+  <Col xs={24} md={12}>
+    <Controller
+      name="bookCover"
+      render={({ field: { onChange, value, ...field } }) => (
+        <Form.Item label="Book Cover">
+          <Input
+            type="file"
+            value={value?.fileName}
+            {...field}
+            onChange={(e) => onChange(e.target.files?.[0])}
+          />
+        </Form.Item>
+      )}
+    />
+  </Col>
+</Row>
+
         <Button htmlType="submit" type="primary" style={{ width: '100%', marginTop: '20px' }}>
           Add Book
         </Button>

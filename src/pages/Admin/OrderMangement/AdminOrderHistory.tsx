@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Tag, Button, Popconfirm, Space } from "antd";
 import { useGetOrdersQuery, useDeleteOrderMutation } from "../../../redux/features/Order/orderApi";
 import { toast } from "sonner";
+import { TrashIcon } from "lucide-react";
 
 const AdminOrderHistory = () => {
   const { data: orders, isLoading, isError ,refetch} = useGetOrdersQuery(undefined);
@@ -84,12 +85,7 @@ const AdminOrderHistory = () => {
         return <Tag color={color}>{status}</Tag>;
       },
     },
-    {
-      title: "Transaction Status",
-      dataIndex: "transactionStatus",
-      key: "transactionStatus",
-      render: (text: string) => <Tag color={text === "Success" ? "green" : "red"}>{text}</Tag>,
-    },
+ 
     {
       title: "Date",
       dataIndex: "date",
@@ -113,7 +109,7 @@ const AdminOrderHistory = () => {
           type="danger"
           
         >
-          Delete
+          <TrashIcon size={12}></TrashIcon>
         </Button>
         </Popconfirm>
       </Space>

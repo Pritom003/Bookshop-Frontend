@@ -54,15 +54,7 @@ const Hero = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua tenim.
           </p>
 
-          {/* <Link to="/all-books" className="group inline-block mt-6 relative
-           text-[#4ebcff] text-lg font-semibold hover:text-blue-400">
-  Browse Books
-  <span className="block w-full h-0.5 bg-black relative mt-1 ">
-    <span className="absolute -right-1  -top-1 w-2 h-2 border-r-2 border-b-2
-     border-black transform -rotate-45
-    transition-all duration-300 group-hover:translate-x-2"></span>
-  </span>
-</Link> */}
+ 
 <Buttons  label="Get Started" 
                 to='/all-books'
                 className="rounded-full py-8  p-4 text-xs font-extralight "  />
@@ -72,7 +64,20 @@ const Hero = () => {
 
         {/* Right-Side Floating Image */}
         <Link to="/all-books" className="w-1/2  relative mt-10 md:mt-0">
+        <div className="flex justify-center align-middle ">
+         {/* <img 
+            src={currentBook || floatimg}  // Use productCover here
+            alt="Floating Book" 
+         
+          /> */}
+          <p   className="  min-w-64 lg:text-xl text-xs  absolute
+           lg:right-96 right-44    top-2  mt-10 w-[80px] ">
+          “Some books leave us free and some  books make us free.”
+          </p>
           <img src={floatimg} alt="Floating Book" className="w-full object-contain animate-float" />
+         </div>
+         
+          
         </Link>
       </div>
     </div>

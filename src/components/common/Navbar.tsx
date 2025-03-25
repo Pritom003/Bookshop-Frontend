@@ -12,7 +12,7 @@ const navLinks = [
   { key: "about", label: "About", path: "/about" },
   { key: "books", label: "All Books", path: "/all-books" },
   { key: "contacts", label: "Contact Us", path: "/contact" },
-  { key: "dash", label: "Dashboard", path: "/dashboard" },
+  { key: "dash", label: "Profile", path: "/dashboard" },
 ];
 
 const Navbar = () => {
@@ -28,13 +28,11 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-white py-4 px-20 
     lg:px-2 top-0 z-50 ">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex gap-4 items-center justify-between">
         {/* Lottie Logo */}
-        <div className="w-64 flex items-center justify-center h-10">
+        <div className=" flex  items-center justify-center  h-10">
           <Lottie animationData={logoAnimation} loop className="w-28 h-20" />
-          <span className="whitespace-nowrap text-lg font-sans text-primary font-semibold md:block">
-            Chapters & Co.
-          </span>
+        
         </div>
 
         {/* Desktop Navigation */}

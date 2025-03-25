@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { TUser } from "../auth/authSlice";
 
 export interface ICartItem {
-  stock(arg0: number, stock: any): number;
-  // user: TUser;
-  product: string; 
+  product: string; // Product ID
   name: string;
   price: number;
   quantity: number;
-  inStock: boolean;
-  image: string; 
+  inStock: number; // Ensure this value is used to check stock limits
+  image: string; // Optional: for displaying in the UI
 }
 
 interface CartState {
@@ -30,18 +26,24 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<ICartItem>) {
-      const existingItem = state.items.find(
-        (item) => item.product === action.payload.product
-      );
+      const { product, quantity, inStock } = action.payload;
+      const existingItem = state.items.find((item) => item.product === product);
+
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
+        if (existingItem.quantity + quantity <= inStock) {
+          existingItem.quantity += quantity;
+          state.totalQuantity += quantity;
+          state.totalPrice += existingItem.price * quantity;
+        }
       } else {
-        state.items.push(action.payload);
+        if (quantity <= inStock) {
+          state.items.push(action.payload);
+          state.totalQuantity += quantity;
+          state.totalPrice += action.payload.price * quantity;
+        }
       }
-      
-      state.totalQuantity += action.payload.quantity;
-      state.totalPrice += (action.payload.price || 0) * action.payload.quantity;
     },
+
     removeFromCart(state, action: PayloadAction<string>) {
       const itemId = action.payload;
       const existingItem = state.items.find((item) => item.product === itemId);
@@ -51,17 +53,22 @@ const cartSlice = createSlice({
         state.items = state.items.filter((item) => item.product !== itemId);
       }
     },
-    updateQuantity(state, action: PayloadAction<{ id: string; quantity: number }>) {
-      const { id, quantity } = action.payload;
-      const existingItem = state.items.find((item) => item.product === id);
-      
-      if (existingItem && quantity > 0) {
-        const quantityDifference = quantity - existingItem.quantity;
-        existingItem.quantity = quantity;
-        
-        state.totalQuantity += quantityDifference;
-        state.totalPrice += quantityDifference * (existingItem.price || 0);
-      }},
+
+updateQuantity(state, action: PayloadAction<{ id: string; quantity: number }>) {
+  const { id, quantity } = action.payload;
+  const existingItem = state.items.find((item) => item.product === id);
+
+  if (existingItem) {
+    if (quantity > 0 && quantity <= existingItem.inStock) {
+      const quantityDifference = quantity - existingItem.quantity;
+      existingItem.quantity = quantity;
+      state.totalQuantity += quantityDifference;
+      state.totalPrice += quantityDifference * existingItem.price;
+    }
+  }
+},
+
+
     clearCart(state) {
       state.items = [];
       state.totalQuantity = 0;

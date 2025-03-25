@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Rate, Input, Button, Row, Col, List, Avatar, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import images from "../assets/images/Banner3.jpg";
@@ -36,7 +36,7 @@ const DetailsBook = () => {
   const cart = useAppSelector((state) => state.cart);
   const productInCart = bookData ? cart.items.find(item => item.product === bookData._id) : null;
   const totalOrdered = productInCart ? productInCart.quantity : 0;
-  const isOutOfStock = book?.quantity === totalOrdered || bookData?.quantity===0;
+  const isOutOfStock = book?.quantity || book?.totalQuantity === totalOrdered || bookData?.quantity===0;
   // Review state
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
   const [visibleReviews, setVisibleReviews] = useState(2);
@@ -45,6 +45,18 @@ const DetailsBook = () => {
 
   const handleAddToCart = () => {
     if (!bookData) return;
+  
+    // Check if the product is already in the cart
+    const productInCart = cart.items.find((item) => item.product === bookData._id);
+    const totalOrdered = productInCart ? productInCart.quantity : 0;
+  
+    // Validate stock before adding
+    if (bookData.inStock !== undefined && totalOrdered >= bookData.inStock) {
+      toast.error("Out of stock!");
+      return; // Stop execution if out of stock
+    }
+  
+    // Dispatch action to add the book to the cart
     dispatch(
       addToCart({
         product: bookData._id,
@@ -53,11 +65,13 @@ const DetailsBook = () => {
         quantity: 1,
         inStock: bookData.inStock,
         image: bookData.bookCover || bookData.productCover || "",
-        stock: bookData.stock,
       })
     );
+  
+    // Success message
     toast.success("Added to cart!");
   };
+  
 
   const handleDeleteReview = async (reviewId: string) => {
     if (!user) {
@@ -134,10 +148,10 @@ const DetailsBook = () => {
        <span className="text-red-700 text-lg font-sans py-10">     Out of Stock!!! </span> :<Button 
             className="my-10 border-4 border-cyan-500"
               onClick={handleAddToCart} 
-              disabled={!bookData?.inStock}
+              disabled={!bookData?.inStock <book.quantity }
             
             >
-              {bookData?.inStock ? "Add to Cart 🛒" : "Out of Stock"}
+              {bookData?.inStock <book.quantity ? "Add to Cart 🛒" : "Out of Stock"}
             </Button>
             }
               

@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Pagination, Slider } from "antd";
 import { useGetProductsQuery } from "../redux/features/Books/Books.api";
 import categoryOptions from "../components/constatnt/categoryconts";
 import { Book } from "../types/types.books";
 
-import { ShoppingCart } from "lucide-react";
 import Container from "../utils/container";
 import CommontHero from "../utils/CommontHero";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
-import { addToCart } from "../redux/features/cart/cartSlice";
 import BookCard from "../components/ui/BookCard/BookCard";
 
 const AllBooks = () => {
@@ -23,16 +21,23 @@ const AllBooks = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]); // Default range 0 - 100
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 900000000000]); // Default range 0 - 100
 
-  const { data: productsData, isLoading, isError } = useGetProductsQuery({
+  const { data: productsData, isLoading, isError ,refetch} = useGetProductsQuery({
     searchTerm,
     page: currentPage,
     limit: pageSize,
     category,
-    priceRange, // ✅ Pass price range filter
-  })
+    minPrice: priceRange[0],
+    maxPrice: priceRange[1], // ✅ Ensure these are numbers
+  });
+  
 
+  useEffect(() => {
+    console.log("Filters Updated:", searchTerm, category, priceRange);
+    refetch()
+  }, [searchTerm, category, priceRange]);
+  
   if (isLoading) {
     return <div className="flex justify-center items-center h-32">Loading...</div>;
   }
@@ -46,20 +51,7 @@ const AllBooks = () => {
   }
 
   const products = Array.isArray(productsData?.data?.products) ? productsData.data.products : [];
-  const handleAddToCart = (book: Book) => {
-    console.log("Clicked Add to Cart:", book._id); // ✅ Use individual book
-    dispatch(
-      addToCart({
-        product: book._id,
-        name: book.title,
-        price: Number(book.price), 
-        quantity: 1,
-        inStock: book.inStock,
-        image: book?.bookCover|| "",
-        stock: book.stock,
-      })
-    );
-  };
+
   
   return (
     <Container>
@@ -108,7 +100,8 @@ const AllBooks = () => {
   max={500} // Adjust as needed
   step={10}
   value={priceRange}
-  onChange={(value: number[]) => setPriceRange(value as [number, number])} // Correctly update the priceRange
+  onChange={(value) => setPriceRange([value[0], value[1]])}
+  // Correctly update the priceRange
 />
 
 <span className="text-sm font-medium">
@@ -121,9 +114,19 @@ const AllBooks = () => {
             {products.length === 0 ? (
               <div className="col-span-2 text-center">
                 <Alert message="No books found" type="warning" showIcon />
-                <button onClick={() => navigate(-1)} className="mt-5 px-4 py-2 bg-gray-800 text-white rounded-md">
-                  Go Back
-                </button>
+                <button
+  onClick={() => {
+    setSearchTerm(""); // Reset search
+    setCategory(""); // Reset category
+    setPriceRange([0, 100]); // Reset price range
+    setCurrentPage(1); // Reset to first page
+    refetch(); // Fetch all books again
+  }}
+  className="mt-5 px-4 py-2 bg-gray-800 text-white rounded-md"
+>
+  Show All Books
+</button>
+
               </div>
             ) : (
               products.map((book: Book) => (
