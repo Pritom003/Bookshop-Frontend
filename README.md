@@ -86,7 +86,8 @@ The frontend interacts with the backend to:
 ## 👥 Contributors
 - **[Nilima Jahan Pritom]** - Developer
 
-## Live link  -  https://book-shop-frontend-lemon.vercel.app/
+## Live link (frontend)  -  https://book-shop-frontend-lemon.vercel.app/
+## Live link (backend) -  https://book-shop-backend-navy.vercel.app
 
 
 ## 📜 License
