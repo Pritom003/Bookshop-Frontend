@@ -50,7 +50,7 @@ cd BOOKSHOP-FRONTEND
 
 ### 2️⃣ Install dependencies:
 ```sh
-yarn install  # or npm install
+npm install  # or yarn install
 ```
 
 ### 3️⃣ Start the development server:
@@ -84,7 +84,10 @@ The frontend interacts with the backend to:
 - **Cart & Checkout**: Secure payment integration.
 
 ## 👥 Contributors
-- **[Your Name]** - Developer
+- **[Nilima Jahan Pritom]** - Developer
+
+## Live link  -  https://book-shop-frontend-lemon.vercel.app/
+
 
 ## 📜 License
 This project is licensed under the MIT License.
