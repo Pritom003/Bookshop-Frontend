@@ -3,6 +3,7 @@ import { useGetTopOrderedProductsQuery } from "../../redux/features/Order/orderA
 import { Rate, Spin } from "antd";
 import BookCard from "../ui/BookCard/BookCard";
 import Buttons from "../ui/Button/Button";
+import { Book } from "../../types/types.books";
 // import background from '../../assets/images/topprobg.png';
 
 const BestSells = () => {
@@ -90,7 +91,7 @@ const BestSells = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
                  justify-center gap-4 lg:gap-16 mx-auto">
-                    {otherBooks.map((book) => (
+                    {otherBooks.map((book: Book) => (
                         <BookCard key={book._id} book={book} imageHeight="200px" imgewidth="150px" textAlign="start" />
                     ))}
                 </div>

@@ -9,7 +9,9 @@ import Buttons from '../ui/Button/Button';
 const Hero = () => {
   return (
     <div 
-      className="relative w-full h-[80vh] min-h-[580px] flex pt-40 lg:pt-14 items-center justify-center bg-cover bg-center"
+      className="relative w-full h-[80vh] min-h-[580px] 
+      flex pt-40 lg:pt-14 items-center justify-center pt-2 
+      bg-cover bg-center"
       style={{ backgroundImage: `url(${HeroBg})` }}
     >
       {/* Dark Overlay */}
@@ -63,18 +65,24 @@ const Hero = () => {
         </div>
 
         {/* Right-Side Floating Image */}
-        <Link to="/all-books" className="w-1/2  relative mt-10 md:mt-0">
-        <div className="flex justify-center align-middle ">
+        <Link to="/all-books" className="w-1/2  
+        relative mt-10 md:mt-0">
+        <div className="flex justify-center align-middle 
+          ">
          {/* <img 
             src={currentBook || floatimg}  // Use productCover here
             alt="Floating Book" 
          
           /> */}
-          <p   className="  min-w-64 lg:text-xl text-xs  absolute
-           lg:right-96 right-44    top-2  mt-10 w-[80px] ">
+          <p   className="  md:min-w-64
+           lg:text-2xl text-xs
+             absolute right-12
+           lg:right-44  -left-14   -top-16    mt-10 w-36   ">
           “Some books leave us free and some  books make us free.”
           </p>
-          <img src={floatimg} alt="Floating Book" className="w-full object-contain animate-float" />
+          <img src={floatimg} alt="Floating Book"
+           className="ml-28 object-contain  w-full
+           animate-float" />
          </div>
          
           

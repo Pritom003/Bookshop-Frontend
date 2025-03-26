@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
-import { Button, Row } from 'antd';
+
+import { Button} from 'antd';
 import { FieldValues } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import { useResetPasswordMutation } from '../redux/features/auth/authApi';
 import MainForm from '../components/Form/MainForm';
 import FormInput from '../components/Form/FormInput';
@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 const ChangePassword = () => {
   const [resetPassword] = useResetPasswordMutation(); // Assuming you have this mutation set up
-  const navigate = useNavigate();
+
   const { search } = useLocation(); // To retrieve query parameters like token and userId
   const queryParams = new URLSearchParams(search);
   const token = queryParams.get('token');

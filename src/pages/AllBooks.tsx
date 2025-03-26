@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Alert, Pagination, Slider } from "antd";
 import { useGetProductsQuery } from "../redux/features/Books/Books.api";
 import categoryOptions from "../components/constatnt/categoryconts";
 import { Book } from "../types/types.books";
-
 import Container from "../utils/container";
 import CommontHero from "../utils/CommontHero";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-
 import BookCard from "../components/ui/BookCard/BookCard";
 
 const AllBooks = () => {
@@ -18,8 +14,7 @@ const AllBooks = () => {
   const [category, setCategory] = useState(""); // Track selected category
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(9);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+
 
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 900000000000]); // Default range 0 - 100
 
@@ -110,7 +105,7 @@ const AllBooks = () => {
           </div>
 
           {/* Books List */}
-          <div className="md:col-span-2 flex gap-4 flex-wrap">
+          <div className="md:col-span-2 flex  max-w-5xl gap-4 flex-wrap">
             {products.length === 0 ? (
               <div className="col-span-2 text-center">
                 <Alert message="No books found" type="warning" showIcon />

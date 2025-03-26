@@ -21,7 +21,7 @@ import ReveneStats from "../pages/Admin/OrderMangement/ReveneStats";
 import Profile from "../pages/Dashboard/Profile";
 
 import ChangePassword from "../pages/ChagnePassword";
-import ForgotPassword from "../pages/ForgotPassword";
+
 import AuthRoute from "../components/layout/Authroute";
 import MyOrderHistory from "../pages/Dashboard/MyOrderHistory";
 import Dashboard from "../pages/Admin/Dashboard";
@@ -37,13 +37,13 @@ const router = createBrowserRouter([
       { path: "/all-books", element: <AllBooks /> },
       { path: "/login", element: <Login /> },
       { path: "/reset-password", element: <ChangePassword /> },
-      { path: "/forget-password", element: <ForgotPassword /> },
+   
       { path: "/regi", element: <Register /> },
       { path: "/book/:id", element: <AuthRoute><DetailsBook /></AuthRoute> },
-      { path: "/cart", element: <Cart /> },
-      { path: "/checkout", element: <Checkout /> },
-      { path: "/order", element: <Orderdetails /> },
-      { path: "/order/verify", element: <VerifyOrder /> },
+      { path: "/cart", element:  <AuthRoute><Cart /></AuthRoute> },
+      { path: "/checkout", element:  <AuthRoute><Checkout /></AuthRoute>  },
+      { path: "/order", element:  <AuthRoute><Orderdetails /></AuthRoute>  },
+      { path: "/order/verify", element: <AuthRoute><VerifyOrder /> </AuthRoute>  },
     ],
   },
   {
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     element:<AuthRoute> <Dashboard></Dashboard></AuthRoute>,
     children: [
       { path: "", element: <Profile /> }, // Admin can add books
-      { path: "add-book", element: <AddBooks /> }, // Admin can add books
+      { path: "add-book", element:<ProtectedRoute><AddBooks /></ProtectedRoute>  }, // Admin can add books
       { path: "myorder", element: <MyOrderHistory/> }, // Admin can add books
       { path: "stats", element:<ProtectedRoute><ReveneStats /></ProtectedRoute>  }, // Admin can add books
       { path: "manage-users", element:<ProtectedRoute><UserTable /></ProtectedRoute>  }, // Admin can add books

@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ShoppingCart, CreditCard, Clipboard, Package } from "lucide-react";
 
 const steps = [

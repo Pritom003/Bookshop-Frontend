@@ -2,9 +2,7 @@
 import { Form } from "antd";
 import { ReactNode } from "react";
 import {
-  FieldValues,
   FormProvider,
-  SubmitHandler,
   useForm,
 } from "react-hook-form";
 
@@ -14,7 +12,7 @@ type TFormConfig = {
 };
 
 type TFormProps = {
-  onSubmit: SubmitHandler<FieldValues>;
+  onSubmit: any;
   children: ReactNode;
 } & TFormConfig;
 
@@ -37,7 +35,7 @@ const MainForm = ({
   const methods = useForm(formConfig);
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...methods} >
       <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>
         {children}
       </Form>

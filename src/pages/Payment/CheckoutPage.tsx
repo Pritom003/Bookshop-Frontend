@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../redux/features/cart/cartSlice";
 // import { clearCart } from "../redux/features/cart/cartSlice";
 
 const Checkout = () => {
-  const { items , total } = useSelector((state: any) => state.cart);
+  const {  total } = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

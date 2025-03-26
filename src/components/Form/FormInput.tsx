@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
+import { Input, Form } from "antd";
+import { useState } from "react";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-
 type TInputProps = {
   type: string;
   name: string;
   label?: string;
-  control: any; // Add control prop for react-hook-form
+  control: any;
 };
 
 const FormInput = ({ type, name, label, control }: TInputProps) => {
@@ -18,7 +17,7 @@ const FormInput = ({ type, name, label, control }: TInputProps) => {
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
-        control={control} // Ensure control is passed down here
+        control={control}
         render={({ field }) => (
           <Form.Item label={label}>
             <Input

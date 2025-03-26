@@ -182,7 +182,7 @@ const DetailsBook = () => {
                   <List
                     itemLayout="horizontal"
                     dataSource={reviews?.data?.slice(0, visibleReviews) || []}
-                    renderItem={(item) => (
+                    renderItem={(item: { _id: string; userId: string; user: string; rating: number; comment: string }) => (
                       <List.Item
                         actions={
                           user?.id === item.userId || user?.role === "ADMIN"

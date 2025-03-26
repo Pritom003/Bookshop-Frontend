@@ -1,17 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useGetMyProfileQuery, useUpdateMyProfileMutation } from "../../redux/features/user/userApi";
 import { Alert, Card, Spin, Upload, Button, Input, message, Avatar } from "antd";
 import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
-import { UploadOutlined, EditOutlined } from "@ant-design/icons";
+import {EditOutlined } from "@ant-design/icons";
 
 const Profile = () => {
   const { data, error, isLoading } = useGetMyProfileQuery({});
   const [updateProfile] = useUpdateMyProfileMutation();
   const userProfile = data?.data;
 
-  const [imagePreview, setImagePreview] = useState("/default-avatar.png");
-  const [formData, setFormData] = useState({
+  const [imagePreview, setImagePreview] = useState("");
+  const [formData, setFormData] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    Profileimage: File | null;
+  }>({
     id: "",
     name: "",
     email: "",
@@ -34,23 +42,25 @@ const Profile = () => {
         role: userProfile.role,
         Profileimage: null,
       });
-      setImagePreview(userProfile.Profileimage || "/default-avatar.png");
+      setImagePreview(userProfile.Profileimage );
     }
   }, [userProfile]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: { target: { name: string; value: any; }; }) => {
     setPasswords((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleUpload = async ({ file }) => {
-    setImagePreview(URL.createObjectURL(file));
-    setFormData((prev) => ({ ...prev, Profileimage: file }));
+  const handleUpload = async (options: any) => {
+    const { file } = options;
+    // Update image preview with the selected image
+    setImagePreview(URL.createObjectURL(file as File));
+    // Update formData with the selected file
+    setFormData((prev) => ({ ...prev, Profileimage: file as File }));
   };
-
   const handleSubmit = async () => {
     const form = new FormData();
     form.append("id", formData.id);
@@ -59,9 +69,10 @@ const Profile = () => {
     form.append("role", formData.role);
 
     if (formData.Profileimage) {
+      console.log("Image to be sent:", formData.Profileimage); // Log the image file
       form.append("Profileimage", formData.Profileimage);
+    
     }
-
     // Include password fields only if changing password
     if (isChangingPassword && passwords.oldPassword && passwords.newPassword) {
       form.append("oldPassword", passwords.oldPassword);

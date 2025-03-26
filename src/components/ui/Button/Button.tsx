@@ -5,9 +5,10 @@ import { FC, MouseEvent, MouseEventHandler } from 'react';
 
 interface ButtonProps {
     label: string;
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
     className?: string;
     type?: 'button' | 'submit' | 'reset';
+    to?: string; // Added the 'to' property
 }
 
 

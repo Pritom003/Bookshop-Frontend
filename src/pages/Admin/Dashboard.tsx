@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import { Link, Outlet } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
@@ -8,7 +8,7 @@ import {
   BarChart2,
   User,
   ShoppingCart,
-  Bookmark,
+
   LibraryBigIcon,
   DollarSign,
 } from "lucide-react";
@@ -20,8 +20,9 @@ const { Sider, Content } = Layout;
 const menuItems = {
   ADMIN: [
     { key: "profile", label: "Profile", path: "/dashboard", icon: <User /> },
-    { key: "manage-users", label: "Manage Users", path: "/dashboard/manage-users", icon: <Users /> },
     { key: "revenue", label: "Revenue", path: "/dashboard/stats", icon: <BarChart2 /> },
+    { key: "manage-users", label: "Manage Users", path: "/dashboard/manage-users", icon: <Users /> },
+
     { key: "orders", label: "Orders", path: "/dashboard/order-history", icon: <ShoppingCart /> },
     { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
 
@@ -29,7 +30,7 @@ const menuItems = {
   ],
   USER: [
     { key: "profile", label: "Profile", path: "/dashboard", icon: <User /> },
-    { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
+    // { key: "add-book", label: "Add Book", path: "/dashboard/add-book", icon: <BookOpen /> },
     { key: "Order", label: "Order history", path: "/dashboard/myorder", icon: <DollarSign /> },
   ],
 };
@@ -65,7 +66,7 @@ const Dashboard = () => {
             width={220}
           >
             <Menu mode="inline" theme="light" defaultSelectedKeys={["dashboard"]}>
-              {menuItems[role]?.map((item) => (
+              {menuItems[role as keyof typeof menuItems]?.map((item) => (
                 <Menu.Item className="mb-2" key={item.key}>
                   {collapsed ? <Link to={item.path}>{item.icon}</Link> : <Link to={item.path}>{item.label}</Link>}
                 </Menu.Item>

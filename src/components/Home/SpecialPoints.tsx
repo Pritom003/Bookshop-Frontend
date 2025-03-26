@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Truck, Clock, CreditCard, ShoppingCart } from "lucide-react";
 
 const points = [

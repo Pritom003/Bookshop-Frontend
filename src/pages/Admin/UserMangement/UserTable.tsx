@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */ 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Table, Button, message, Popconfirm } from "antd";
 import { useDispatch } from "react-redux";
 import {
@@ -12,19 +12,19 @@ import {
 } from "../../../redux/features/user/userApi";
 import { setUsers } from "../../../redux/features/user/userSlice";
 import { UserOutlined } from "@ant-design/icons";
-import { DeleteIcon, Edit, GraduationCapIcon, Lock, Trash2, Trash2Icon, Unlock } from "lucide-react";
+import { DeleteIcon, Edit, GraduationCapIcon, Lock, Trash2, Unlock } from "lucide-react";
 
 const UserTable = () => {
   const dispatch = useDispatch();
-  const { data, error, isLoading } = useGetAllUsersQuery({});
+  const { data,  isLoading } = useGetAllUsersQuery({});
   const [blockUser, { isLoading: blocking }] = useBlockUserMutation();
   const [makeAdmin, { isLoading: makingAdmin }] = useMakeAdminMutation();
   const [removeAdmin, { isLoading: removingAdmin }] = useRemoveAdminMutation();
   const [deleteUser, { isLoading: deleting }] = useDeleteUserMutation();
-console.log(error);
+
   useEffect(() => {
     if (data) {
-      dispatch(setUsers(data.data)); // Store fetched users in redux
+      dispatch(setUsers(data.data));
     }
   }, [data, dispatch]);
 
@@ -65,17 +65,6 @@ console.log(error);
   };
 
   const columns = [
-    // {
-    //   title: "Name",
-    //   dataIndex: "name",
-    //   key: "name",
-    //   render: (name: string, record: { role: string }) => (
-    //     <div>
-    //       {record.role === "ADMIN" &&  />}
-    //       {name.split(" ")[0]}
-    //     </div>
-    //   ),
-    // },
     {
       title: "Email",
       dataIndex: "email",
@@ -86,9 +75,8 @@ console.log(error);
       dataIndex: "role",
       key: "role",
       render: (role: string) => (
-        <span style={{ color: role === "ADMIN" ? "red" : 
-        "blue" }}>
-          {role === "ADMIN" ? <GraduationCapIcon size={20} /> :<UserOutlined style={{ marginRight: 8 }}/>}
+        <span style={{ color: role === "ADMIN" ? "red" : "blue" }}>
+          {role === "ADMIN" ? <GraduationCapIcon size={20} /> : <UserOutlined style={{ marginRight: 8 }} />}
         </span>
       ),
     },
@@ -96,44 +84,24 @@ console.log(error);
       title: "Actions",
       key: "actions",
       render: (_: any, record: { _id: string; is_blocked: boolean; role: string }) => (
-        <>
+        <div className="flex flex-wrap gap-2">
           <Button
-      
             danger={record.is_blocked}
             onClick={() => handleBlockUser(record._id)}
             loading={blocking}
-            style={{ marginRight: 8 }}
           >
-{
-  record.is_blocked ? (
-    <Lock style={{ color: "red", cursor: "pointer" }} />
-  ) : (
-
-    <Unlock style={{ color: "green", cursor: "pointer" }} />
-  )
-}
+            {record.is_blocked ? <Lock style={{ color: "red" }} /> : <Unlock style={{ color: "green" }} />}
           </Button>
-          
+
           {record.role === "USER" && (
-            <Button
-              type="dashed"
-              onClick={() => handleMakeAdmin(record._id)}
-              loading={makingAdmin}
-              style={{ marginRight: 8 }}
-            >
-        <Edit style={{ color: "blue" }} /> 
+            <Button type="dashed" onClick={() => handleMakeAdmin(record._id)} loading={makingAdmin}>
+              <Edit style={{ color: "blue" }} />
             </Button>
           )}
 
           {record.role === "ADMIN" && (
-            <Button
-              className="bg-white text-xs "
-              danger
-              onClick={() => handleRemoveAdmin(record._id)}
-              loading={removingAdmin}
-              style={{ marginRight: 8 }}
-            >
-              <DeleteIcon></DeleteIcon>
+            <Button danger onClick={() => handleRemoveAdmin(record._id)} loading={removingAdmin}>
+              <DeleteIcon />
             </Button>
           )}
 
@@ -143,44 +111,46 @@ console.log(error);
             okText="Yes"
             cancelText="No"
           >
-            <Button className="text-red-700 " danger loading={deleting}>
-              <Trash2Icon></Trash2Icon>
+            <Button danger loading={deleting}>
+              <Trash2 />
             </Button>
           </Popconfirm>
-        </>
+        </div>
       ),
     },
   ];
 
   return (
-    <div>
+    <div className="p-4">
+      <div className="overflow-auto">
+        <Table
+          rowKey="_id"
+          columns={columns}
+          dataSource={data?.data || []}
+          loading={isLoading}
+          pagination={{ pageSize: 10 }}
+          scroll={{ x: "max-content" }}
+        />
+      </div>
 
+      {/* Action Guide Section */}
+      <h2 className="text-lg font-semibold mt-4">Action Guideline</h2>
+      <div className="flex flex-wrap justify-between gap-4 text-xs mt-2">
+        <div className="flex gap-4 flex-wrap">
+          <span><Lock style={{ color: "red" }} /> Block User</span>
+          <span><Unlock style={{ color: "green" }} /> Unblock User</span>
+          <span><Trash2 style={{ color: "red" }} /> Delete User</span>
+          <span><Edit style={{ color: "blue" }} /> Make Admin</span>
+          <span><DeleteIcon style={{ color: "red" }} /> Remove Admin</span>
+        </div>
 
-    <Table
-      rowKey="_id"
-      columns={columns}
-      dataSource={data?.data || []}
-      loading={isLoading}
-      pagination={{ pageSize: 10 }}
-    />
-    
-    <h2> Action Guideline </h2>
-<div className="flex  flex-wrap justify-between  gap-6">
-
- 
- <div className="flex gap-4 text-xs">
- <span><Lock style={{ color: "red" }} /> Block User</span>
-  <span><Unlock style={{ color: "green" }} /> Unblock User</span>
-  <span><Trash2 style={{ color: "red" }} /> Delete User</span>
-  <span><Edit style={{ color: "blue" }} /> Make Admin</span>
-  <span>  <DeleteIcon style={{ color: "red" }}></DeleteIcon> Remove Admin</span>
- </div>
-<div className="flex gap-2 " > 
-  <hr className="block md:hidden"/>
-   <span><GraduationCapIcon style={{ color: "goldenrod" }} size={20} /> Admin</span>
-   <span className="grid"><UserOutlined style={{ color: "#1890ff" }} size={20} />  User</span></div>
-
-</div>
+        <div className="flex gap-2 items-center">
+          <GraduationCapIcon style={{ color: "goldenrod" }} size={20} />
+          <span>Admin</span>
+          <UserOutlined style={{ color: "#1890ff" }} size={20} />
+          <span>User</span>
+        </div>
+      </div>
     </div>
   );
 };

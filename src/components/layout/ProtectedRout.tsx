@@ -1,12 +1,12 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { Navigate } from "react-router-dom";
-import { selectCurrentUser, useCurrentToken } from "../../redux/features/auth/authSlice";
+import { selectCurrentUser, TUser, useCurrentToken} from "../../redux/features/auth/authSlice";
 // import { useCurrentToken, useCurrentUser } from "../../redux/features/auth/authSlice";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const token = useAppSelector(useCurrentToken);
-  const user = useAppSelector(selectCurrentUser);
+  const user = useAppSelector(selectCurrentUser) as TUser;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { Button, Modal, message, Popconfirm, Space, Table, Row, Col, Form, Input } from "antd";
 import { Controller, FieldValues, useForm } from "react-hook-form";
@@ -15,7 +17,7 @@ const AllProductsTable = () => {
   const [updateProduct] = useEditProductMutation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState<any>(null);
-  const { control, reset, handleSubmit } = useForm();
+  const { control, reset } = useForm();
 
   const handleDelete = async (id: string) => {
     try {
@@ -46,6 +48,7 @@ const AllProductsTable = () => {
   }, [selectedBook, reset]);
 
   const onSubmit = async (values: FieldValues) => {
+    console.log(values.bookCover);
     const formData = new FormData();
     formData.append("title", values.title || selectedBook.title);
     formData.append("author", values.author || selectedBook.author);
@@ -54,6 +57,7 @@ const AllProductsTable = () => {
     formData.append("quantity", values.quantity?.toString() || selectedBook.quantity.toString());
 
     if (values.bookCover && values.bookCover instanceof File) {
+    
       formData.append("bookCover", values.bookCover);
     }
 
@@ -128,7 +132,7 @@ const AllProductsTable = () => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        <MainForm onSubmit={handleSubmit(onSubmit)}>
+        <MainForm onSubmit={onSubmit}>
           <Row gutter={[16, 16]}>
             <Col xs={24} md={12}>
               <FormInput type="text" name="title" label="Title" control={control} />
@@ -137,18 +141,25 @@ const AllProductsTable = () => {
               <FormInput type="text" name="author" label="Author" control={control} />
             </Col>
             <Col xs={24} md={12}>
-              <Controller
-                name="bookCover"
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Item label="Book Cover">
-                    <Input type="file" onChange={(e) => onChange(e.target.files?.[0])} />
-                  </Form.Item>
-                )}
-              />
-            </Col>
+    <Controller
+      name="bookCover"
+      render={({ field: { onChange, value, ...field } }) => (
+        <Form.Item label="Book Cover">
+          <Input
+            type="file"
+            value={value?.fileName}
+            {...field}
+            onChange={(e) => onChange(e.target.files?.[0])}
+          />
+        </Form.Item>
+      )}
+    />
+  </Col>
             <Col xs={24} md={12}>
-              <Selectfield label="Category" name="category" control={control} options={categoryOptions} />
+              <Selectfield label="Category" name="category" control={control} options={categoryOptions} disabled={false} 
+              value={""} onChange={function (): void {
+                throw new Error("Function not implemented.");
+              } } />
             </Col>
             <Col xs={24} md={12}>
               <FormInput type="number" name="price" label="Price" control={control} />

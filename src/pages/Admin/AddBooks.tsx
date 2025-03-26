@@ -40,7 +40,7 @@ const onSubmit = async (data: FieldValues) => {
     console.log("FormData to be sent:", formData); 
 
     await createProduct(formData).unwrap();
-    toast.error("Something went wrong");
+    toast.success("Product Added Successfully");
   } catch (err : any) {
    
     console.error(err, 'look there 3 ' );

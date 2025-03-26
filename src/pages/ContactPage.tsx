@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import CommontHero from "../utils/CommontHero";
 import Container from "../utils/container";
 import { Mail, Phone, MapPin } from "lucide-react"; // Import icons from lucide-react
@@ -12,19 +13,22 @@ const ContactPage = () => {
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
 
-    emailjs
-      .sendForm('service_s2a846p', 'template_ux5y98d', form.current, {
-        publicKey: 'xg_it34Ban1qLoOoC',
-      })
-      .then(
-        () => {
-          toast.success("Message sent successfully");
-        },
-        (error) => {
-     
+    if (form.current) {
+      emailjs
+        .sendForm('service_s2a846p', 'template_ux5y98d', form.current, {
+          publicKey: 'xg_it34Ban1qLoOoC',
+        })
+        .then(
+          () => {
             toast.success("Message sent successfully");
-        },
-      );
+          },
+          () => {
+            toast.error("Failed to send message");
+          },
+        );
+    } else {
+      toast.error("Form reference is null");
+    }
   };
 
   return (
@@ -106,3 +110,5 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
+

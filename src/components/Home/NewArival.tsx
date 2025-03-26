@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import bgImage from "../../assets/images/topprobg.png"; // Ensure correct path
 import categoryOptions from "../constatnt/categoryconts";
 import BookCard from "../ui/BookCard/BookCard";
+import { Book } from "../../types/types.books";
 
 
 
@@ -45,16 +46,17 @@ const NewArrival = () => {
       </div>
 
       {/* New Arrivals Section */}
-      <div className="flex-1">
+      <div className="flex-1 grid  justify-center align-middle items-center">
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">New Arrivals 📚</h2>
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <Skeleton active />
           </div>
         ) : products.length > 0 ? (
+          
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-center
-           mx-auto align-middle items-center ">
-            {products.map((book) => (
+           mx-auto align-middle items-center">
+            {products.map((book :Book) => (
               <BookCard key={book._id} book={book} />
             ))}
           </div>

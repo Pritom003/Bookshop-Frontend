@@ -1,5 +1,5 @@
 import { Circle } from 'lucide-react';
-import React from 'react';
+
 // import { FaCheckCircle } from 'react-icons/fa'; // Example icon, you can replace it with any icon
 import book1 from '../../assets/images/about image.jpg';
 import book2 from '../../assets/images/about-image2.jpg';

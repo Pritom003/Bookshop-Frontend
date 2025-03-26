@@ -62,12 +62,7 @@ const Login = () => {
       </p>
 
       <Card
-        style={{
-          width: 400,
-          padding: "30px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        }}
+   className=" w-66 md:w-96 shadow-2xl  my-10"
       >
         <MainForm onSubmit={onSubmit}>
           <FormInput type="text" name="email" label="Email:" control={undefined} />

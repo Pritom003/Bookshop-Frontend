@@ -30,10 +30,13 @@ const Navbar = () => {
     lg:px-2 top-0 z-50 ">
       <div className="container mx-auto flex gap-4 items-center justify-between">
         {/* Lottie Logo */}
+        <Link to='/'>
         <div className=" flex  items-center justify-center  h-10">
           <Lottie animationData={logoAnimation} loop className="w-28 h-20" />
         
         </div>
+        </Link>
+       
 
         {/* Desktop Navigation */}
         <ul className="hidden lg:flex flex-wrap justify-center gap-4 text-lg">

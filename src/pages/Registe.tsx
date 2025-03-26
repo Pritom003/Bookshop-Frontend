@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Card, Form, Input, Typography } from "antd";
+import {  Card, Form, Input, Typography } from "antd";
 import "antd/dist/reset.css";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -28,20 +29,25 @@ const Register = () => {
       formData.append("name", data.name);
       formData.append("email", data.email);
       formData.append("password", data.password);
+      
+      // If file is selected, append to FormData
       if (data.Profileimage) {
-        formData.append("Profileimage", data.Profileimage); // ✅ Ensure correct file upload
+        formData.append("Profileimage", data.Profileimage);
       }
-
+  
+      // Sending formData to the backend for processing
       const res = await register(formData).unwrap();
       const user = verifiedToken(res.data.accessToken);
       dispatch(setUser({ user: user, token: res.data.accessToken }));
-
+  
       toast.success("Registration successful");
       navigate(`/`);
     } catch (err) {
-      toast.error("Something went wrong");
+      toast.error((err as any).error ||(err as any) .message ||'something is wrong ') ;
+   
     }
   };
+  
 
   return (
     <Container>
@@ -61,14 +67,10 @@ const Register = () => {
         <p style={{ marginBottom: 30, color: "#6c757d" }}>Home / Create Account</p>
 
         <Card
-          style={{
-            width: 500,
-            padding: "30px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          }}
+      className=" w-66 md:w-96 shadow-2xl "
         >
-          <MainForm onSubmit={handleSubmit(onSubmit)}> {/* ✅ Use handleSubmit */}
+        
+         <MainForm onSubmit={handleSubmit(onSubmit)}> {/* ✅ Use handleSubmit */}
             <FormInput type="text" name="name" label="Name:" control={control} />
             <FormInput type="text" name="email" label="Email:" control={control} />
             <FormInput type="password" name="password" label="Password" control={control} />
@@ -77,7 +79,7 @@ const Register = () => {
             <Controller
               name="Profileimage"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <Form.Item label="Profile Image">
                   <Input
                     type="file"
@@ -98,6 +100,7 @@ const Register = () => {
               />
             </div>
           </MainForm>
+      
 
           <p style={{ marginTop: "20px", color: "#6c757d" }}>
             Already have an account?{" "}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Table, Tag, Button, Popconfirm, Space } from "antd";
 import { useGetOrdersQuery, useDeleteOrderMutation } from "../../../redux/features/Order/orderApi";
@@ -7,11 +8,12 @@ import { TrashIcon } from "lucide-react";
 const AdminOrderHistory = () => {
   const { data: orders, isLoading, isError ,refetch} = useGetOrdersQuery(undefined);
   const [deleteOrder] = useDeleteOrderMutation();  // Get the deleteOrder mutation hook
-  const [orderData, setOrderData] = useState([]);
+  const [orderData, setOrderData] = useState<{ key: string; orderId: string; user: string; status: string; totalPrice: number; date: string; transactionStatus: any; }[]>([]);
 
   useEffect(() => {
     if (Array.isArray(orders?.data)) {
-      const formattedOrders = orders.data?.map((order) => ({
+      const formattedOrders = orders.data?.map((order: { _id: string; user: { email:string; };
+         status: string; totalPrice: number; createdAt: string | number | Date; transaction: { bank_status: any; }; }) => ({
         key: order._id,
         orderId: order._id,
         user: order?.user?.email,
@@ -94,7 +96,7 @@ const AdminOrderHistory = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
+      render: (_: any, record: { orderId: string; }) => (
      
         <Space>
    
@@ -106,7 +108,7 @@ const AdminOrderHistory = () => {
         >
           
         <Button
-          type="danger"
+         
           
         >
           <TrashIcon size={12}></TrashIcon>
